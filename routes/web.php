@@ -29,7 +29,7 @@ Route::get('/eventlist', 'EventListController@index')->name('eventlist');
 // advanced routes
 
 // specify multiple routes
-Route::resource('events', 'EventController')->middleware('verified');
+Route::resource('events', 'EventController')->middleware('verified')->middleware('permission:Unassign Role');;
 Route::resource('contactMessages', 'ContactController')->middleware('verified');
 Route::get('/contactMessages/view/{id}', 'ContactController@view')->name('contactMessages.view')->middleware('verified');
 Route::resource('users', 'UsersController')->middleware('verified');
@@ -66,6 +66,12 @@ Route::fallback(function () {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// permissions
+Route::group(['middleware' => ['auth']], function() {
+	Route::resource('roles','UserManagement\RoleController');
+	Route::resource('users','UserManagement\UserController');
+});
 
 
 Route::any('{catchall}', 'PageController@notfound')->where('catchall', '.*');

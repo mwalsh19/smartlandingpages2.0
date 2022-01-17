@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends Controller
+class RolePermissionAssignController extends Controller
 {
     public function __construct()
     {
@@ -20,39 +19,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // create a role
-        //$role = Role::create(['name' => 'writer']);
-
-        // create a permission
-        //$permission = Permission::create(['name' => 'edit articles']);
-
-        // add permission to role
-        // $role = Role::create(['name' => 'editor']);
-        // $assign = $role->syncPermissions('edit articles');
-
-        // remove permission from role
-        // $role->revokePermissionTo($permission);
-
-        // check user permissions and roles
-        $user = Auth::user();
-        // assign user a role
-        // $user->assignRole('writer');
-        // get user permissions
-        $permissions = $user->permissions;
-        // get user roles 
-        $roles = $user->getRoleNames();
-        // get all user permissions
-        $permissions_user = $user->getAllPermissions();
-        // remove all user permissions
-        $user->syncRoles([]);
-
-        // get all roles with permissions
-        $role_permissions = Role::with('permissions')->get();
-        // var_dump(json_encode($role_permissions, JSON_PRETTY_PRINT));
-        // var_dump($permissions_user);
-        // die(); 
-        return view('dashboard.index');
-    } 
+    	$roles = \Spatie\Permission\Models\Role::all();
+    	$permissions = \Spatie\Permission\Models\Permission::all();
+        return view('roles-permissions.index', compact('roles', 'permissions'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -61,7 +31,7 @@ class DashboardController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -72,7 +42,12 @@ class DashboardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $this->validator($request->all())->validate();
+        $validatedData['password'] = Hash::make($validatedData['password']);
+
+        $show = User::create($validatedData);
+   
+        return redirect('/users')->with('success', 'User Successfully Created.');
     }
 
     /**
@@ -94,7 +69,9 @@ class DashboardController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -115,8 +92,24 @@ class DashboardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($userId) 
     {
-        //
+        $userAuth = auth()->user();
+        $user = User::findOrFail($userId);
+        if ($userAuth->id === $user->id) {
+            return redirect('/users')->with('error', 'You cannot delete yourself.');
+        } else {
+            $user->delete();
+            return redirect('/users')->with('success', $user->name . ' was removed.');
+        }
+    }
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
     }
 }

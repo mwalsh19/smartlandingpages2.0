@@ -11,7 +11,7 @@
             <div class="row justify-content-center">
               <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Create User</p>
 
                 <form class="mx-1 mx-md-4" method="POST" action="{{ route('users.store') }}">
                 	@csrf
@@ -58,16 +58,25 @@
                     </div>
                   </div>
 
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <select name="role">
+                        <option value="" selected="selected">--Select Role--</option>
+                        @foreach($roles as $role)
+                          <option value="{{ $role->name }}">{{ $role->name }}</option>
+                        @endforeach
+                      </select>
+                      <label class="form-label" for="role">Select Role</label>
+                    </div>
+                  </div>
+
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="submit" class="btn btn-primary btn-lg">Create</button>
+                    <button type="submit" class="btn btn-primary btn-lg">Create</button>&nbsp;
+                    <a class="btn btn-primary btn-lg" href="{{ route('users.index') }}">Back</a> 
                   </div>
 
                 </form>
-
-              </div>
-              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" class="img-fluid" alt="Sample image">
 
               </div>
             </div>

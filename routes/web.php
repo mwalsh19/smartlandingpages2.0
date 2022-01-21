@@ -29,7 +29,7 @@ Route::get('/eventlist', 'EventListController@index')->name('eventlist');
 // advanced routes
 
 // specify multiple routes
-Route::resource('events', 'EventController')->middleware('verified')->middleware('role:super-admin');
+Route::resource('events', 'EventController')->middleware('verified')->middleware('role:Admin');
 Route::resource('contactMessages', 'ContactController')->middleware('verified');
 Route::get('/contactMessages/view/{id}', 'ContactController@view')->name('contactMessages.view')->middleware('verified');
 Route::resource('users', 'UsersController')->middleware('verified');

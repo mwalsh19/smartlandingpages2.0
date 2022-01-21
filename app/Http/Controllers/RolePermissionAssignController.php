@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Validator;
 
 class RolePermissionAssignController extends Controller
 {
@@ -31,7 +32,8 @@ class RolePermissionAssignController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+    	$permissions = \Spatie\Permission\Models\Permission::all();
+        return view('roles-permissions.create', compact('permissions'));
     }
 
     /**
@@ -42,12 +44,18 @@ class RolePermissionAssignController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $this->validator($request->all())->validate();
-        $validatedData['password'] = Hash::make($validatedData['password']);
-
-        $show = User::create($validatedData);
-   
-        return redirect('/users')->with('success', 'User Successfully Created.');
+    	if ($request->input('type') === 'role') {
+    		$permission_values = $request->input('permissions');
+	        $validatedData = $this->validator($request->all())->validate();
+	        $role = Role::create($validatedData);
+	        $role->syncPermissions($permission_values);
+	        return redirect('/roles-permissions')->with('success', 'Role Successfully Created.');
+    	} else {
+	        $validatedData = $this->validator($request->all())->validate();
+	        $permission = Permission::create($validatedData);
+	        return redirect('/roles-permissions')->with('success', 'Permission Successfully Created.');
+    	}
+    	
     }
 
     /**
@@ -69,9 +77,10 @@ class RolePermissionAssignController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $role = Role::findOrFail($id);
+        $permissions = \Spatie\Permission\Models\Permission::all();
 
-        return view('users.edit', compact('user'));
+        return view('roles-permissions.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -83,7 +92,17 @@ class RolePermissionAssignController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $this->validator($request->all())->validate();
+        $permission_values = $request->input('permissions');
+        $role = Role::findOrFail($id);
+        if ($role->id === 1) {
+        	return back()->with('error', 'Admin role cannot be updated.');
+        } else {
+        	$role->update($validatedData);
+	        $role->syncPermissions($permission_values);
+
+	        return redirect('/roles-permissions')->with('success', 'Role was successfully updated');
+        }
     }
 
     /**
@@ -92,15 +111,24 @@ class RolePermissionAssignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($userId) 
+    public function destroy(Request $request, $id) 
     {
-        $userAuth = auth()->user();
-        $user = User::findOrFail($userId);
-        if ($userAuth->id === $user->id) {
-            return redirect('/users')->with('error', 'You cannot delete yourself.');
+        if ($request->input('type') === 'role') {
+        	$role = Role::findOrFail($id);
+        	if ($role->id === 1) {
+            	return back()->with('error', 'You cannot delete the admin role.');
+	        } else {
+	            $role->delete();
+	        	return redirect('/roles-permissions')->with('success', 'Role was successfully deleted');
+	        }
         } else {
-            $user->delete();
-            return redirect('/users')->with('success', $user->name . ' was removed.');
+        	$permission = Permission::findOrFail($id);
+        	if ($permission->id === 1) {
+            	return back()->with('error', 'You cannot delete the main permission.');
+	        } else {
+	            $permission->delete();
+	        	return redirect('/roles-permissions')->with('success', 'Permission was successfully deleted');
+	        }
         }
     }
 
@@ -108,8 +136,6 @@ class RolePermissionAssignController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 }

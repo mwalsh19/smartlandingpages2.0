@@ -39,38 +39,48 @@ class RolePermissionBootstrap extends Command
      */
     public function handle()
     {
-        $roles = ["Super Admin", "User Manager","Role Manager"];
+        $roles = ["Admin", "Manager","Editor"];
 
         $permissions = [
-            "View All Users", 
-            "Edit All Users", 
-            "Assign Role", 
-            "Unassign Role", 
-            "View All Permissions",
-            "View All Roles"];
+            "all",
+            "view-users", 
+            "edit-users",
+            "create-users", 
+            "delete-users",
+            "assign-role", 
+            "create-role",
+            "delete-role",
+            "view-roles",
+            "unassign-role",
+            "delete-permission",
+            "create-permission",
+            "edit-permission",
+            "view-permission",
+            "assign-permission"
+        ];
 
 
         $this->line('------------- Setting Up Roles:');
 
         foreach ($roles as $role) {
-            $role = Role::updateOrCreate(['name' => $role, 'guard_name' => 'api']);
+            $role = Role::updateOrCreate(['name' => $role, 'guard_name' => 'web']);
             $this->info("Created " . $role->name . " Role");
         }
 
         $this->line('------------- Setting Up Permissions:');
 
-        $superAdminRole = Role::where('name', "Super Admin")->first();
+        $superAdminRole = Role::where('name', "Admin")->first();
 
         foreach ($permissions as $perm_name) {
             $permission = Permission::updateOrCreate(['name' => $perm_name,
-                'guard_name' => 'api']);
+                'guard_name' => 'web']);
 
             $superAdminRole->givePermissionTo($permission);
 
             $this->info("Created " . $permission->name . " Permission");
         }
 
-        $this->info("All permissions are granted to Super Admin");
+        $this->info("All permissions are granted to Admin");
         $this->line('------------- Application Bootstrapping is Complete: \n');
     }
 }

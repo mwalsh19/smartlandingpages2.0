@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UsersController extends Controller
 {
@@ -33,7 +35,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $roles = \Spatie\Permission\Models\Role::all();
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -47,7 +50,10 @@ class UsersController extends Controller
         $validatedData = $this->validator($request->all())->validate();
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        $show = User::create($validatedData);
+        $user = User::create($validatedData);
+
+        // assign user a role
+        $user->assignRole($request->role);
    
         return redirect('/users')->with('success', 'User Successfully Created.');
     }
@@ -72,8 +78,11 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
+        $roles = \Spatie\Permission\Models\Role::all();
+        // get user roles 
+        $userRoles = $user->getRoleNames();
 
-        return view('users.edit', compact('user'));
+        return view('users.edit', compact('user', 'roles', 'userRoles'));
     }
 
     /**
@@ -85,7 +94,27 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+        ]);
+
+        $userAuth = auth()->user();
+        $user = User::findOrFail($id);
+
+        if ($request->role !== $user->getRoleNames()[0] && $userAuth->id === $user->id) { 
+            return back()->with('error', 'You cannot update your own permissions.');
+        } else {
+            $user->update($validatedData);
+
+            // remove all user permissions
+            $user->syncRoles([]);
+            // assign user a role
+            $user->assignRole($request->role);
+       
+            return redirect('/users')->with('success', 'User Successfully Updated.');
+        }
     }
 
     /**
@@ -110,6 +139,7 @@ class UsersController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);

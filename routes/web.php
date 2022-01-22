@@ -34,6 +34,8 @@ Route::resource('contactMessages', 'ContactController')->middleware('verified');
 Route::get('/contactMessages/view/{id}', 'ContactController@view')->name('contactMessages.view')->middleware('verified');
 Route::resource('users', 'UsersController')->middleware('verified');
 
+
+
 Route::resource('profile', 'ProfileController')->middleware('verified');
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard')->middleware('verified');
 
@@ -55,6 +57,8 @@ Auth::routes(['verify' => true]);
 // misc routes
 // only for routes that only need a view page with nothing special
 Route::view('/welcome', 'sitepages.welcome')->name('welcome');
+Route::view('/terms-conditions', 'legal.terms');
+Route::view('/privacy-policy', 'legal.policy');
 
 
 Route::redirect('/main', '/'); // for 302 redirect

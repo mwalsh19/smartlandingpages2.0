@@ -34,20 +34,20 @@ class DashboardController extends Controller
         // $role->revokePermissionTo($permission);
 
         // check user permissions and roles
-        $user = Auth::user();
+        // $user = Auth::user();
         // assign user a role
         // $user->assignRole('writer');
         // get user permissions
-        $permissions = $user->permissions;
+        // $permissions = $user->permissions;
         // get user roles 
-        $roles = $user->getRoleNames();
+        // $roles = $user->getRoleNames();
         // get all user permissions
-        $permissions_user = $user->getAllPermissions();
+        // $permissions_user = $user->getAllPermissions();
         // remove all user permissions
-        $user->syncRoles([]);
+        // $user->syncRoles([]);
 
         // get all roles with permissions
-        $role_permissions = Role::with('permissions')->get();
+        // $role_permissions = Role::with('permissions')->get();
         // var_dump(json_encode($role_permissions, JSON_PRETTY_PRINT));
         // var_dump($permissions_user);
         // die(); 

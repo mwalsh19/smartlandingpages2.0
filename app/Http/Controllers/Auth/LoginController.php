@@ -39,6 +39,19 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    /**
+     * Custom credentials to validate the status of user.
+     */
+    public function credentials(Request $request)
+    {
+        return [
+            'email'     => $request->email,
+            'password'  => $request->password,
+            'is_active' => '1'
+        ];
+    }
+
+
     protected function authenticated(Request $request, $user)
     {
         return redirect()->route('dashboard');

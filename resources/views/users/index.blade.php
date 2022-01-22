@@ -30,6 +30,8 @@
             <td>ID</td>
             <td>Name</td>
             <td>Email</td>
+            <td>Verified</td>
+            <td>Status</td>
             <td colspan="2">Action</td>
           </tr>
       </thead>
@@ -39,6 +41,8 @@
               <td>{{$user->id}}</td>
               <td>{{$user->name}}</td>
               <td>{{$user->email}}</td>
+              <td>@if($user->email_verified_at) Yes @else No @endif</td>
+              <td>@if($user->is_active === 1) Active @else Blocked @endif</td>
               <td><a href="{{ route('users.edit', $user->id)}}" class="btn btn-primary">Edit</a></td>
               <td>
                   <form action="{{ route('users.destroy', $user->id)}}" method="post">

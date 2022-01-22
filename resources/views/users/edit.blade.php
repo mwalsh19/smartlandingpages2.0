@@ -36,6 +36,18 @@
 
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-group">
+                      <label class="radio-inline">
+                        <input type="radio" name="is_active" value="1" @if($user->is_active===1) checked @endif>&nbsp;Active
+                      </label>
+                      <label class="radio-inline"> 
+                        <input type="radio" name="is_active" value="0" @if($user->is_active===0) checked @endif />&nbsp;Blocked
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
                       <input type="text" id="form3Example1c" name="name" class="form-control" value="{{ $user->name }}" />
                       <label class="form-label" for="form3Example1c">Your Name</label>
@@ -69,7 +81,7 @@
 
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button type="submit" class="btn btn-primary btn-lg">Update</button>&nbsp;
-                    <a class="btn btn-primary btn-lg" href="{{ route('users.index') }}">Back</a>
+                    <a class="btn btn-primary btn-lg" href="{{ URL::previous() }}">Back</a>
                   </div>
                 </form>
 

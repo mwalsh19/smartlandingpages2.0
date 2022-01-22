@@ -64,7 +64,28 @@
             </form>
 	        <a class="btn btn-primary" href="{{ route('roles-permissions.index') }}">Cancel</a>
 	  </div>
+
+
+	  <h1> Users With This Role: </h1>
+	  <table class="table table-striped">
+				      <thead>
+				          <tr>
+				            <td>Name</td>
+				            <td></td>
+				          </tr>
+				      </thead>
+				      <tbody>
+				          @foreach($users as $user)
+				          <tr>
+				              <td>{{$user->name}}</td>
+				              <td><a href="{{ route('users.edit', $user->id)}}" class="btn btn-primary">View</a></td>
+				          </tr>
+				          @endforeach
+				      </tbody>
+				</table>
 	</div>
+
+
 
 </div>
 @endsection

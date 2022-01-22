@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
+use App\User;
 
 class RolePermissionAssignController extends Controller
 {
@@ -79,8 +80,9 @@ class RolePermissionAssignController extends Controller
     {
         $role = Role::findOrFail($id);
         $permissions = \Spatie\Permission\Models\Permission::all();
+        $users = User::role($role->name)->get();
 
-        return view('roles-permissions.edit', compact('role', 'permissions'));
+        return view('roles-permissions.edit', compact('role', 'permissions', 'users'));
     }
 
     /**

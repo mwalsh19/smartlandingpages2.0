@@ -98,23 +98,36 @@ class UsersController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'role' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
+            'is_active' => ['required'],
         ]);
 
         $userAuth = auth()->user();
         $user = User::findOrFail($id);
 
-        if ($request->role !== $user->getRoleNames()[0] && $userAuth->id === $user->id) { 
-            return back()->with('error', 'You cannot update your own permissions.');
-        } else {
-            $user->update($validatedData);
+        if ($userAuth->id === $user->id) {
+            if ($request->role !== $user->getRoleNames()[0]) { 
+                return back()->with('error', 'You cannot update your own roles and permissions.');
+            }
 
-            // remove all user permissions
-            $user->syncRoles([]);
-            // assign user a role
-            $user->assignRole($request->role);
-       
-            return redirect('/users')->with('success', 'User Successfully Updated.');
+            if ($request->input('is_active')[0] != $user->is_active) { 
+                return back()->with('error', 'You cannot change your own status, please contact administrator.');
+            }
+        } 
+
+        if ($user->id === 1) {
+            if ($request->role !== $user->getRoleNames()[0] || $request->input('is_active')[0] != $user->is_active) { 
+                return back()->with('error', 'Admin roles and status cannot be changed.');
+            }
         }
+
+        $user->update($validatedData);
+
+        // remove all user permissions
+        $user->syncRoles([]);
+        // assign user a role
+        $user->assignRole($request->role);
+       
+        return redirect('/users')->with('success', 'User Successfully Updated.');
     }
 
     /**
@@ -129,10 +142,15 @@ class UsersController extends Controller
         $user = User::findOrFail($userId);
         if ($userAuth->id === $user->id) {
             return redirect('/users')->with('error', 'You cannot delete yourself.');
-        } else {
-            $user->delete();
-            return redirect('/users')->with('success', $user->name . ' was removed.');
-        }
+        } 
+
+        if ($user->id === 1) {
+            return redirect('/users')->with('error', 'You cannot delete the main admin user.');
+        } 
+        
+        $user->delete();
+        return redirect('/users')->with('success', $user->name . ' was removed.');
+
     }
 
     protected function validator(array $data)

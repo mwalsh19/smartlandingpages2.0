@@ -79,6 +79,17 @@
                     </div>
                   </div>
 
+                  @if(Auth::user()->id === $user->id)
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <a href="{{ route('change.password') }}">Change Password</a> 
+                      </div>
+                    </div>
+
+                  @endif
+
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button type="submit" class="btn btn-primary btn-lg">Update</button>&nbsp;
                     <a class="btn btn-primary btn-lg" href="{{ URL::previous() }}">Back</a>

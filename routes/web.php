@@ -32,8 +32,10 @@ Route::get('/eventlist', 'EventListController@index')->name('eventlist');
 Route::resource('events', 'EventController');
 Route::resource('contactMessages', 'ContactController')->middleware('verified');
 Route::get('/contactMessages/view/{id}', 'ContactController@view')->name('contactMessages.view')->middleware('verified');
+Route::get('users/change-password', 'UsersController@changePassword')->name('change.password');
+Route::post('users/change-password', 'UsersController@changePasswordStore')->name('change.store');
 Route::resource('users', 'UsersController')->middleware('verified');
-
+Route::resource('dashboard/activity', 'ActivityController')->middleware('verified');
 
 
 Route::resource('profile', 'ProfileController')->middleware('verified');

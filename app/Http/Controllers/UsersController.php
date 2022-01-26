@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Activitylog\Models\Activity;
 
 class UsersController extends Controller
 {
@@ -51,9 +52,11 @@ class UsersController extends Controller
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         $user = User::create($validatedData);
+        activity()->log('Created New User');
 
         // assign user a role
         $user->assignRole($request->role);
+        activity()->log('Assigned new user a role: ' . $request->role);
    
         return redirect('/users')->with('success', 'User Successfully Created.');
     }
@@ -147,10 +150,35 @@ class UsersController extends Controller
         if ($user->id === 1) {
             return redirect('/users')->with('error', 'You cannot delete the main admin user.');
         } 
-        
+ 
         $user->delete();
+        activity()->log('Deleted User');
         return redirect('/users')->with('success', $user->name . ' was removed.');
 
+    }
+
+    public function changePassword()
+    {
+        $user = auth()->user();
+        return view('users.password', compact('user'));
+    }
+
+    public function changePasswordStore(Request $request)
+    {
+        $validatedData = $request->validate([
+            'old_password' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password_confirmation' => ['required', 'string', 'max:255'],
+        ]);
+
+        $userAuth = auth()->user();
+
+        if (Hash::check($validatedData['old_password'], $userAuth->password)) {
+            User::whereId($userAuth->id)->update(['password' => Hash::make($validatedData['password'])]);
+            return redirect('/users')->with('success', 'Password successfully changed. You will need your changed password when you log in next time.');
+        } else {
+            return back()->with('error', 'Your existing password did not match what you entered.');
+        }
     }
 
     protected function validator(array $data)

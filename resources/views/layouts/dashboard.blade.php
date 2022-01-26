@@ -142,7 +142,7 @@
                                 </nav>
                             </div>
                             <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html">
+                            <a class="nav-link" href="{{ route('activity.index') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
                                 Activity Log
                             </a>

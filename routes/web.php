@@ -32,14 +32,14 @@ Route::get('/eventlist', 'EventListController@index')->name('eventlist');
 Route::resource('events', 'EventController');
 Route::resource('contactMessages', 'ContactController')->middleware('verified');
 Route::get('/contactMessages/view/{id}', 'ContactController@view')->name('contactMessages.view')->middleware('verified');
+
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard')->middleware('verified');
+Route::resource('dashboard/users', 'UsersController')->middleware('verified');
 Route::get('users/change-password', 'UsersController@changePassword')->name('change.password');
 Route::post('users/change-password', 'UsersController@changePasswordStore')->name('change.store');
-Route::resource('users', 'UsersController')->middleware('verified');
 Route::resource('dashboard/activity', 'ActivityController')->middleware('verified');
-
-
-Route::resource('profile', 'ProfileController')->middleware('verified');
-Route::get('/dashboard', 'DashboardController@index')->name('dashboard')->middleware('verified');
+Route::resource('dashboard/profile', 'ProfileController')->middleware('verified');
+Route::resource('dashboard/roles-permissions', 'RolePermissionAssignController')->middleware('verified');
 
 Route::get('/contact', 'ContactController@show')->name('contact'); 
 Route::post('/contact', 'ContactController@contactMailSend')->name('contact.store'); 
@@ -72,13 +72,6 @@ Route::fallback(function () {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-// permissions
-/*Route::group(['middleware' => ['auth']], function() {
-	Route::resource('roles','UserManagement\RoleController');
-	Route::resource('users','UserManagement\UserController');
-});*/
-Route::resource('roles-permissions', 'RolePermissionAssignController')->middleware('verified');
 
 
 Route::any('{catchall}', 'PageController@notfound')->where('catchall', '.*');

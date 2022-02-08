@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\UsersProfile;
+use App\UsersSetting;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -52,6 +55,8 @@ class UsersController extends Controller
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         $user = User::create($validatedData);
+        $profile = UsersProfile::create(['user_id' => $user->id]);
+        $settings = UsersSetting::create(['user_id' => $user->id]);
         activity()->log('Created New User');
 
         // assign user a role
@@ -152,6 +157,9 @@ class UsersController extends Controller
         } 
  
         $user->delete();
+        DB::table('users_profiles')->where('user_id', $userId)->delete();
+        DB::table('users_settings')->where('user_id', $userId)->delete();
+
         activity()->log('Deleted User');
         return redirect('/users')->with('success', $user->name . ' was removed.');
 

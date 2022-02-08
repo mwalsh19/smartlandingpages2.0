@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Profile;
 use App\User;
+use App\UsersProfile;
+use App\UsersSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -20,7 +22,14 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('profile.index', array('user' => Auth::user()));
+        $user = User::findOrFail(Auth::user()->id);
+
+        $user_info = DB::table('users')
+            ->join('users_profiles', 'users.id', '=', 'users_profiles.user_id')
+            ->where('users.id', $user->id)
+            ->get();  
+        
+        return view('profile.index', array('user_info' => $user_info[0]));
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Publishers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PublisherController extends Controller
 {
@@ -40,6 +41,8 @@ class PublisherController extends Controller
      */
     public function store(Request $request)
     {
+        $request['publisher'] = Str::lower($request['publisher']);
+
         $validatedData = $request->validate([
             'publisher' => 'required|max:255',
         ]);
@@ -81,6 +84,8 @@ class PublisherController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request['publisher'] = Str::lower($request['publisher']);
+        
         $validatedData = $request->validate([
             'publisher' => 'required|max:255',
         ]);

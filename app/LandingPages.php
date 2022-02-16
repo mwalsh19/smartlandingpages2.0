@@ -13,6 +13,7 @@ class LandingPages extends Model
     	'publisher',
     	'title',
     	'referral_code',
+        'referral_code_intelliapp',
     	'main_title',
     	'main_description',
     	'benef1_caption',

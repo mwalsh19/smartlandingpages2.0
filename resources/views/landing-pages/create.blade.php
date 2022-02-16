@@ -125,10 +125,16 @@
                     <input type="text" class="form-control" name="pixel" id="pixel" value="{{ old('pixel') }}" />
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <div class="form-group">
-                    <label for="referral_code">Referral Code:</label>
+                    <label for="referral_code">Referral Code (Lead Form):</label>
                     <input type="text" class="form-control" name="referral_code" id="referral_code" value="{{ old('referral_code') }}" />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="referral_code_intelliapp">Referral Code (Intelliapp):</label>
+                  <input type="text" class="form-control" name="referral_code_intelliapp" id="referral_code_intelliapp" value="{{ old('referral_code_intelliapp') }}" />
                 </div>
               </div>
             </div>

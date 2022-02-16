@@ -18,11 +18,8 @@ class AdminUserSeeder extends Seeder
         		'name'=>'Admin User', 
         		'email'=>'admin@admin.com', 
         		'email_verified_at'=> now(),    
-        		'password'=> bcrypt('admin')
+        		'password'=> bcrypt('NDRkUriyWT4dwK7')
         	]
         );
-
-        // assign user a role
-        $user->assignRole('Admin');
     }
 }

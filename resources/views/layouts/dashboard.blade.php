@@ -25,6 +25,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script> 
+    <script src="//cdn.ckeditor.com/4.17.2/basic/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js" integrity="sha512-94dgCw8xWrVcgkmOc2fwKjO4dqy/X3q7IjFru6MHJKeaAzCvhkVtOS6S+co+RbcZvvPBngLzuVMApmxkuWZGwQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body class="sb-nav-fixed">
     <div id="app"> 
@@ -78,13 +80,25 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
-                            <a class="nav-link" href="{{ route('profile.index') }}">
+                            <a class="nav-link" href="{{ route('clients.index') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>
-                                Profile
+                                Clients
                             </a>
-                            <a class="nav-link" href="{{ route('profile.index') }}">
+                            <a class="nav-link" href="{{ route('templates.index') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
-                                Settings
+                                Templates
+                            </a>
+                            <a class="nav-link" href="{{ route('applicants.index') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-calendar"></i></div>
+                                Applicants
+                            </a>
+                            <a class="nav-link" href="{{ route('publishers.index') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-calendar"></i></div>
+                                Publishers
+                            </a>
+                            <a class="nav-link" href="{{ route('landing-pages.index') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-calendar"></i></div>
+                                Landing Pages
                             </a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
@@ -94,8 +108,8 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{{ route('events.index') }}">All Events</a>
-                                    <a class="nav-link" href="{{ route('events.create') }}">Create</a>
+                                    <a class="nav-link" href="#">All Events</a>
+                                    <a class="nav-link" href="#">Create</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsers" aria-expanded="false" aria-controls="collapseLayouts">
@@ -107,7 +121,7 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="{{ route('users.index') }}">All Users</a>
                                     <a class="nav-link" href="{{ route('users.create') }}">Create</a>
-                                    <a class="nav-link" href="{{ route('roles-permissions.index') }}">Roles</a> 
+                                    <a class="nav-link" href="#">Roles</a> 
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -123,9 +137,9 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">Login</a>
-                                            <a class="nav-link" href="register.html">Register</a>
-                                            <a class="nav-link" href="password.html">Forgot Password</a>
+                                            <a class="nav-link" href="#">Login</a>
+                                            <a class="nav-link" href="#">Register</a>
+                                            <a class="nav-link" href="#">Forgot Password</a>
                                         </nav>
                                     </div>
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
@@ -134,19 +148,19 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="401.html">401 Page</a>
-                                            <a class="nav-link" href="404.html">404 Page</a>
-                                            <a class="nav-link" href="500.html">500 Page</a>
+                                            <a class="nav-link" href="#">401 Page</a>
+                                            <a class="nav-link" href="#">404 Page</a>
+                                            <a class="nav-link" href="#">500 Page</a>
                                         </nav>
                                     </div>
                                 </nav>
                             </div>
                             <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="{{ route('activity.index') }}">
+                            <a class="nav-link" href="#">
                                 <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
                                 Activity Log
                             </a>
-                            <a class="nav-link" href="{{ route('contactMessages.index') }}">
+                            <a class="nav-link" href="#">
                                 <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
                                 Contact Inbox
                             </a>
@@ -184,5 +198,10 @@
         <script src="{{ asset('demo/chart-bar-demo.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
         <script src="{{ asset('demo/datatables-simple-demo.js') }}"></script>
+        <script>
+            $(function () {
+              $('#color_scheme_headline').colorpicker();
+            });
+        </script>
 </body>
 </html>

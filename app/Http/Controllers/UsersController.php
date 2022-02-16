@@ -9,8 +9,8 @@ use App\User;
 use App\UsersProfile;
 use App\UsersSetting;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+//use Spatie\Permission\Models\Role;
+//use Spatie\Permission\Models\Permission;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\DB;
 
@@ -39,8 +39,9 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $roles = \Spatie\Permission\Models\Role::all();
-        return view('users.create', compact('roles'));
+        //$roles = \Spatie\Permission\Models\Role::all();
+        //return view('users.create', compact('roles'));
+        return view('users.create');
     }
 
     /**
@@ -55,15 +56,15 @@ class UsersController extends Controller
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         $user = User::create($validatedData);
-        $profile = UsersProfile::create(['user_id' => $user->id]);
-        $settings = UsersSetting::create(['user_id' => $user->id]);
-        activity()->log('Created New User');
+        //$profile = UsersProfile::create(['user_id' => $user->id]);
+        //$settings = UsersSetting::create(['user_id' => $user->id]);
+        //activity()->log('Created New User');
 
         // assign user a role
-        $user->assignRole($request->role);
-        activity()->log('Assigned new user a role: ' . $request->role);
+        //$user->assignRole($request->role);
+        //activity()->log('Assigned new user a role: ' . $request->role);
    
-        return redirect('/users')->with('success', 'User Successfully Created.');
+        return redirect('/dashboard/users')->with('success', 'User Successfully Created.');
     }
 
     /**
@@ -86,11 +87,12 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $roles = \Spatie\Permission\Models\Role::all();
+        //$roles = \Spatie\Permission\Models\Role::all();
         // get user roles 
-        $userRoles = $user->getRoleNames();
+        //$userRoles = $user->getRoleNames();
 
-        return view('users.edit', compact('user', 'roles', 'userRoles'));
+        //return view('users.edit', compact('user', 'roles', 'userRoles'));
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -104,7 +106,6 @@ class UsersController extends Controller
     {
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'role' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'is_active' => ['required'],
         ]);
@@ -113,8 +114,14 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
 
         if ($userAuth->id === $user->id) {
-            if ($request->role !== $user->getRoleNames()[0]) { 
+            /*if ($request->role !== $user->getRoleNames()[0]) { 
                 return back()->with('error', 'You cannot update your own roles and permissions.');
+            }*/
+
+            if ($user->id === 1) {
+                if ($request->input('is_active')[0] != $user->is_active) { 
+                    return back()->with('error', 'Admin roles and status cannot be changed.');
+                }
             }
 
             if ($request->input('is_active')[0] != $user->is_active) { 
@@ -122,20 +129,14 @@ class UsersController extends Controller
             }
         } 
 
-        if ($user->id === 1) {
-            if ($request->role !== $user->getRoleNames()[0] || $request->input('is_active')[0] != $user->is_active) { 
-                return back()->with('error', 'Admin roles and status cannot be changed.');
-            }
-        }
-
         $user->update($validatedData);
 
         // remove all user permissions
-        $user->syncRoles([]);
+        //$user->syncRoles([]);
         // assign user a role
-        $user->assignRole($request->role);
+        //$user->assignRole($request->role);
        
-        return redirect('/users')->with('success', 'User Successfully Updated.');
+        return redirect('/dashboard/users')->with('success', 'User Successfully Updated.');
     }
 
     /**
@@ -149,19 +150,19 @@ class UsersController extends Controller
         $userAuth = auth()->user();
         $user = User::findOrFail($userId);
         if ($userAuth->id === $user->id) {
-            return redirect('/users')->with('error', 'You cannot delete yourself.');
+            return redirect('/dashboard/users')->with('error', 'You cannot delete yourself.');
         } 
 
         if ($user->id === 1) {
-            return redirect('/users')->with('error', 'You cannot delete the main admin user.');
+            return redirect('/dashboard/users')->with('error', 'You cannot delete the main admin user.');
         } 
  
         $user->delete();
-        DB::table('users_profiles')->where('user_id', $userId)->delete();
-        DB::table('users_settings')->where('user_id', $userId)->delete();
+        //DB::table('users_profiles')->where('user_id', $userId)->delete();
+        //DB::table('users_settings')->where('user_id', $userId)->delete();
 
-        activity()->log('Deleted User');
-        return redirect('/users')->with('success', $user->name . ' was removed.');
+        //activity()->log('Deleted User');
+        return redirect('/dashboard/users')->with('success', $user->name . ' was removed.');
 
     }
 
@@ -183,7 +184,7 @@ class UsersController extends Controller
 
         if (Hash::check($validatedData['old_password'], $userAuth->password)) {
             User::whereId($userAuth->id)->update(['password' => Hash::make($validatedData['password'])]);
-            return redirect('/users')->with('success', 'Password successfully changed. You will need your changed password when you log in next time.');
+            return redirect('/dashboard/users')->with('success', 'Password successfully changed. You will need your changed password when you log in next time.');
         } else {
             return back()->with('error', 'Your existing password did not match what you entered.');
         }
@@ -193,7 +194,6 @@ class UsersController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'role' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);

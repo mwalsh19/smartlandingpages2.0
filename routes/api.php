@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('applicants', 'ApplicantAPIController@index');
+Route::get('applicants/{id}', 'ApplicantAPIController@show');
+Route::post('applicants', 'ApplicantAPIController@store');
+Route::put('applicants/{id}', 'ApplicantAPIController@update');
+Route::delete('applicants/{id}', 'ApplicantAPIController@delete');
+
+Route::get('landing-page/{path}', 'LandingPagesAPIController@show');

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 //use Spatie\Permission\Models\Permission;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class UsersController extends Controller
 {
@@ -54,6 +55,7 @@ class UsersController extends Controller
     {
         $validatedData = $this->validator($request->all())->validate();
         $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData['api_token'] = Str::random(60);
 
         $user = User::create($validatedData);
         //$profile = UsersProfile::create(['user_id' => $user->id]);

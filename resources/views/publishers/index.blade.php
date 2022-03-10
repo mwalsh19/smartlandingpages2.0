@@ -24,6 +24,7 @@
           <tr>
             <td>ID</td>
             <td>Publisher</td>
+            <td>Pixel</td>
             <td colspan="2">Action</td>
           </tr>
       </thead>
@@ -32,6 +33,7 @@
           <tr>
               <td>{{$publisher->id}}</td>
               <td>{{$publisher->publisher}}</td>
+              <td>{{$publisher->pixel}}</td>
               <td><a href="{{ route('publishers.edit', $publisher->id)}}" class="btn btn-primary">Edit</a></td>
               <td>
                   <form action="{{ route('publishers.destroy', $publisher->id)}}" method="post">

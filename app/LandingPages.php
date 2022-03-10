@@ -38,11 +38,13 @@ class LandingPages extends Model
     	'phone',
     	'background',
     	'background_mobile',
+        'body_image_2',
     	'sub_title',
     	'region_graphic',
     	'region_graphic_mobile',
+        'body_image_4',
+        'body_image_4_title',
     	'ga_lp',
     	'ga_tp',
-    	'pixel',
     ];
 }

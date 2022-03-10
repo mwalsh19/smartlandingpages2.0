@@ -34,6 +34,10 @@
                 <label for="publisher">Publisher:</label>
                 <input type="text" class="form-control" name="publisher"/>
             </div>
+            <div class="form-group">
+                <label for="pixel">Pixel:</label>
+                <input type="text" class="form-control" name="pixel"/>
+            </div>
             <button type="submit" class="btn btn-primary">Add Publisher</button>
             <a class="btn btn-primary" href="{{ route('publishers.index') }}">Cancel</a>
         </form> 

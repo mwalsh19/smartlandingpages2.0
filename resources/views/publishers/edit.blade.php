@@ -29,11 +29,15 @@
         </div><br />
       @endif
         <form method="post" action="{{ route('publishers.update', $publisher->id ) }}"> 
+          @csrf
+          @method('PATCH')
             <div class="form-group">
-                @csrf
-                @method('PATCH')
                 <label for="publisher">Publisher:</label>
                 <input type="text" class="form-control" name="publisher" value="{{ $publisher->publisher }}"/>
+            </div>
+            <div class="form-group">
+                <label for="publisher">Pixel:</label>
+                <input type="text" class="form-control" name="pixel" value="{{ $publisher->pixel }}"/>
             </div>
             <button type="submit" class="btn btn-primary">Update Publisher</button>
             <a class="btn btn-primary" href="{{ route('publishers.index') }}">Cancel</a>

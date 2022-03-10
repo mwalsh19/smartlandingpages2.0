@@ -46,12 +46,14 @@ class CreateLandingpagesTable extends Migration
             $table->string('phone')->nullable();
             $table->string('background')->nullable();
             $table->string('background_mobile')->nullable();
+            $table->string('body_image_2')->nullable();
             $table->string('sub_title')->nullable();
             $table->string('region_graphic')->nullable();
             $table->string('region_graphic_mobile')->nullable();
+            $table->string('body_image_4')->nullable();
+            $table->text('body_image_4_title')->nullable();
             $table->string('ga_lp')->nullable();
             $table->string('ga_tp')->nullable();
-            $table->string('pixel')->nullable();
             $table->timestamps();
         });
     }

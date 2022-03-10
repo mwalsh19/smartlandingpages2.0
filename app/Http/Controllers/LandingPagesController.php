@@ -63,11 +63,13 @@ class LandingPagesController extends Controller
             'sub_title' => 'required|max:255',
             'ga_lp' => 'max:255',
             'ga_tp' => 'max:255',
-            'pixel' => 'max:255',
             'background' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'background_mobile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'body_image_2' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'region_graphic' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'region_graphic_mobile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'body_image_4' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'body_image_4_title' => 'max:255',
             'benef1_caption_title' => 'max:255',
             'benef2_caption_title' => 'max:255',
             'benef3_caption_title' => 'max:255',
@@ -102,6 +104,12 @@ class LandingPagesController extends Controller
             $request->background_mobile->move(public_path($filepath), $image);
         }
 
+        if ($request->body_image_2) {
+            $image = time().rand(1000,9999).'.'.$request->body_image_2->extension(); 
+            $validatedData['body_image_2'] = $image;
+            $request->body_image_2->move(public_path($filepath), $image);
+        }
+
         if ($request->region_graphic) {
             $imageBackground = time().rand(1000,9999).'.'.$request->region_graphic->extension(); 
             $validatedData['region_graphic'] = $imageBackground;
@@ -112,6 +120,12 @@ class LandingPagesController extends Controller
             $image = time().rand(1000,9999).'.'.$request->region_graphic_mobile->extension(); 
             $validatedData['region_graphic_mobile'] = $image;
             $request->region_graphic_mobile->move(public_path($filepath), $image);
+        }
+
+        if ($request->body_image_4) {
+            $image = time().rand(1000,9999).'.'.$request->body_image_4->extension(); 
+            $validatedData['body_image_4'] = $image;
+            $request->body_image_4->move(public_path($filepath), $image);
         }
 
         if ($request->benef1_figure) {
@@ -230,6 +244,12 @@ class LandingPagesController extends Controller
             $request->background_mobile->move(public_path($filepath), $image);
         }
 
+        if ($request->body_image_2) {
+            $image = time().rand(1000,9999).'.'.$request->body_image_2->extension(); 
+            $validatedData['body_image_2'] = $image;
+            $request->body_image_2->move(public_path($filepath), $image);
+        }
+
         if ($request->region_graphic) {
             $imageBackground = time().rand(1000,9999).'.'.$request->region_graphic->extension(); 
             $validatedData['region_graphic'] = $imageBackground;
@@ -240,6 +260,12 @@ class LandingPagesController extends Controller
             $image = time().rand(1000,9999).'.'.$request->region_graphic_mobile->extension(); 
             $validatedData['region_graphic_mobile'] = $image;
             $request->region_graphic_mobile->move(public_path($filepath), $image);
+        }
+
+        if ($request->body_image_4) {
+            $image = time().rand(1000,9999).'.'.$request->body_image_4->extension(); 
+            $validatedData['body_image_4'] = $image;
+            $request->body_image_4->move(public_path($filepath), $image);
         }
 
         if ($request->benef1_figure) {
@@ -300,11 +326,13 @@ class LandingPagesController extends Controller
             'sub_title' => 'required|max:255',
             'ga_lp' => 'max:255',
             'ga_tp' => 'max:255',
-            'pixel' => 'max:255',
             'background' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'background_mobile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'body_image_2' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'region_graphic' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'region_graphic_mobile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'body_image_4' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'body_image_4_title' => 'max:255',
             'benef1_caption_title' => 'max:255',
             'benef2_caption_title' => 'max:255',
             'benef3_caption_title' => 'max:255',

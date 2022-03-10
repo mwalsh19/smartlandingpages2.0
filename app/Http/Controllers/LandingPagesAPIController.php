@@ -31,9 +31,14 @@ class LandingPagesAPIController extends Controller
 	            ->where('id', $landingPage[0]->template_id)
 	            ->get(); 
 
+            $publisher = DB::table('publishers')
+                ->where('id', $landingPage[0]->publisher)
+                ->get(); 
+
 	    	$landingPageData['landingPage'] = $landingPage[0];
 	    	$landingPageData['client'] = $client[0];
 	    	$landingPageData['template'] = $template[0];
+            $landingPageData['publisher'] = $publisher[0];
 
         	return response()->json($landingPageData, 200);
         }
@@ -42,4 +47,5 @@ class LandingPagesAPIController extends Controller
             ], 404);
     } 
 }
+
  

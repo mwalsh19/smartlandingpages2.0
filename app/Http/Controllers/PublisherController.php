@@ -45,6 +45,7 @@ class PublisherController extends Controller
 
         $validatedData = $request->validate([
             'publisher' => 'required|max:255',
+            'pixel' => 'required|max:255'
         ]);
         $show = Publishers::create($validatedData);
    
@@ -88,6 +89,7 @@ class PublisherController extends Controller
         
         $validatedData = $request->validate([
             'publisher' => 'required|max:255',
+            'pixel' => 'required|max:255'
         ]);
         Publishers::whereId($id)->update($validatedData);
 

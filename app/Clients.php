@@ -9,6 +9,7 @@ class Clients extends Model
     protected $fillable = [
     	'name',
     	'logo',
+    	'website',
     	'description',
     	'color_scheme_headline',
     	'color_scheme_sub_headline',

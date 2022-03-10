@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Publishers extends Model
 {
     protected $fillable = [
-    	'publisher'
+    	'publisher',
+    	'pixel'
     ];
 }

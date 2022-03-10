@@ -119,12 +119,6 @@
                     <input type="text" class="form-control" name="ga_tp" id="ga_tp" value="{{ old('ga_tp') }}" />
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                    <label for="pixel">Pixel:</label>
-                    <input type="text" class="form-control" name="pixel" id="pixel" value="{{ old('pixel') }}" />
-                </div>
-              </div>
               <div class="col-md-3">
                 <div class="form-group">
                     <label for="referral_code">Referral Code (Lead Form):</label>
@@ -152,6 +146,20 @@
               <div class="col-md-6">
                 <label for="background_mobile">Background (Mobile):</label>
                 <input type="file" name="background_mobile" class="form-control">
+              </div>
+            </div>
+            <div class="row margin-vertical">
+              <div class="col-md-6">
+                  <label for="body_image_2">Body Image #2:</label>
+                  <input type="file" name="body_image_2" class="form-control">
+              </div>
+              <div class="col-md-6">
+                  <label for="body_image_4">Body Image #4:</label>
+                  <input type="file" name="body_image_4" class="form-control">
+                  <div class="form-group">
+                      <label for="body_image_4_title">Body Image #4 Title:</label>
+                      <input type="text" class="form-control" name="body_image_4_title" id="body_image_4_title" value="{{ old('body_image_4_title') }}" />
+                  </div>
               </div>
             </div>
             <div class="row margin-vertical">

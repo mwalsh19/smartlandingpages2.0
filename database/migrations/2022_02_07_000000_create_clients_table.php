@@ -22,6 +22,7 @@ class CreateClientsTable extends Migration
             $table->string('color_scheme_sub_headline')->nullable();
             $table->string('color_scheme_body_copy')->nullable();
             $table->string('color_scheme_accent')->nullable();
+            $table->string('website');
             $table->timestamps();
         });
     }

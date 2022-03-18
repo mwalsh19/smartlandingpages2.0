@@ -28,6 +28,7 @@ Route::resource('dashboard/clients', 'ClientController')->middleware('verified')
 Route::resource('dashboard/templates', 'TemplateController')->middleware('verified');
 Route::resource('dashboard/applicants', 'ApplicantController')->middleware('verified');
 Route::resource('dashboard/publishers', 'PublisherController')->middleware('verified');
+Route::post('dashboard/landing-pages/clone/{id}', 'LandingPagesController@clone')->middleware('verified')->name('landing-pages.clone');
 Route::resource('dashboard/landing-pages', 'LandingPagesController')->middleware('verified');
 //Route::resource('dashboard/activity', 'ActivityController')->middleware('verified');
 //Route::resource('dashboard/profile', 'ProfileController')->middleware('verified');

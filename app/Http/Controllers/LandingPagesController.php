@@ -49,7 +49,7 @@ class LandingPagesController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'path' => 'required|max:255',
+            'path' => 'required|max:255|unique:landing_pages',
             'title' => 'required|max:255',
             'template_id' => 'required',
             'client_id' => 'required',
@@ -205,11 +205,15 @@ class LandingPagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $this->validator($request->all())->validate();
+        $validatedData = $this->validator($request->all(), $id)->validate();
 
         $validatedData = $this->checkImages($request, $validatedData);
 
         LandingPages::whereId($id)->update($validatedData);
+
+        if ($request->old_path !== $request->path) {
+            rename('uploads/' . $request->old_path, 'uploads/' . $request->path);
+        }
 
         return redirect('/dashboard/landing-pages')->with('success', 'Landing Page was successfully updated');
     }
@@ -226,6 +230,59 @@ class LandingPagesController extends Controller
         $landingPage->delete();
 
         return redirect('/dashboard/landing-pages')->with('success', 'Landing Page was successfully deleted');
+    }
+
+    public function clone($id)
+    {
+        $clonedLandingPage = [];
+        $landingPage = LandingPages::findOrFail($id);
+        $original_path = $landingPage->path;
+
+        $clonedLandingPage = $landingPage;
+        $clonedLandingPage['path'] = 'cloned-' . $landingPage->path;
+
+
+        $clonedLandingPageObj = json_encode($clonedLandingPage);
+        $clonedLandingPageArr = json_decode($clonedLandingPageObj, true);
+
+        $this->recursive_files_copy('uploads/' . $original_path, 'uploads/' . $clonedLandingPage['path']);
+
+        $data = LandingPages::create($clonedLandingPageArr);
+        $id = $data->id;
+
+        return redirect('/dashboard/landing-pages/' . $id . '/edit');
+    }
+
+    protected function recursive_files_copy($source_dir, $destination_dir)
+    {
+        // Open the source folder / directory 
+        $dir = opendir($source_dir);
+
+        // Create a destination folder / directory if not exist 
+        if (!is_dir($destination_dir)){
+            mkdir($destination_dir);
+        }
+        // Loop through the files in source directory 
+        while($file = readdir($dir))
+        {
+            // Skip . and .. 
+            if(($file != '.') && ($file != '..'))
+            {
+                // Check if it's folder / directory or file 
+                if(is_dir($source_dir.'/'.$file))
+                {
+                    // Recursively calling this function for sub directory  
+                    recursive_files_copy($source_dir.'/'.$file, $destination_dir.'/'.$file);
+                }
+                else
+                {
+                    // Copying the files
+                    copy($source_dir.'/'.$file, $destination_dir.'/'.$file);
+                }
+            }
+        }
+        
+        closedir($dir);
     }
 
     protected function checkImages($request, array $validatedData)
@@ -309,10 +366,10 @@ class LandingPagesController extends Controller
         return $validatedData;
     }
 
-    protected function validator(array $data)
+    protected function validator(array $data, $userId)
     {
         return Validator::make($data, [
-            'path' => 'required|max:255',
+            'path' => 'required|max:255|unique:landing_pages,path,' . $userId,
             'title' => 'required|max:255',
             'template_id' => 'required',
             'client_id' => 'required',

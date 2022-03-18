@@ -44,8 +44,8 @@
           @method('PATCH')
             <div class="form-group">
                 <label for="publisher">Path:</label>
-                <input type="text" class="form-control" name="path-view" id="path" value="{{ $landingPage->path }}" disabled />
-                <input type="hidden" name="path" value="{{ $landingPage->path }}" />
+                <input type="text" class="form-control" name="path" id="path" value="{{ $landingPage->path }}" />
+                <input type="hidden" name="old_path" value="{{ $landingPage->path }}" />
             </div>
             <div class="row">
               <div class="col-md-4">

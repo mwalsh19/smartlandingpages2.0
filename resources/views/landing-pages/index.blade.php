@@ -34,7 +34,14 @@
               <td>{{$landingPage->id}}</td>
               <td>{{$landingPage->title}}</td>
               <td>{{$landingPage->path}}</td>
-              <td><a href="{{ route('landing-pages.edit', $landingPage->id)}}" class="btn btn-primary">Edit/View</a></td>
+              <td>
+                <a href="{{ route('landing-pages.edit', $landingPage->id)}}" class="btn btn-primary">Edit/View</a>
+                <form action="{{ route('landing-pages.clone', $landingPage->id)}}" method="post">
+                    @csrf
+                    @method('POST')
+                    <button class="btn btn-primary" type="submit">Clone</button>
+                </form>
+              </td>
               <td>
                   <form action="{{ route('landing-pages.destroy', $landingPage->id)}}" method="post">
                     @csrf

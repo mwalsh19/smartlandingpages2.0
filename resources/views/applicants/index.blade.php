@@ -19,7 +19,7 @@
         {{ session()->get('success') }}  
       </div><br />
     @endif
-    <table class="table table-striped">
+    <table class="table table-striped" id="datatablesSimple">
       <thead>
           <tr>
             <td>ID</td>
@@ -29,6 +29,7 @@
             <td>Phone</td>
             <td>Experience</td>
             <td>CDL</td>
+            <td>Tenstreet</td>
             <td colspan="2">Action</td>
           </tr>
       </thead>
@@ -42,7 +43,9 @@
               <td>{{$applicant->phone_number}}</td>
               <td>{{$applicant->experience}}</td>
               <td>{{$applicant->cdl === 1 ? 'Yes' : 'No'}}</td>
+              <td>{{$applicant->tenstreet === 1 ? 'Submitted' : 'Not Submitted'}}</td>
               <td>
+                <a href="{{ route('applicants.show', $applicant->id)}}" class="btn btn-primary">View</a>
                   <form action="{{ route('applicants.destroy', $applicant->id)}}" method="post">
                     @csrf
                     @method('DELETE')

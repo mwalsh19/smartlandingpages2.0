@@ -50,9 +50,10 @@ class ApplicantController extends Controller
      * @param  \App\Applicants  $applicants
      * @return \Illuminate\Http\Response
      */
-    public function show(Applicants $applicants)
+    public function show($id)
     {
-        //
+        $applicant = Applicants::findOrFail($id);
+        return view('applicants.view', compact('applicant'));
     }
 
     /**

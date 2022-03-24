@@ -17,5 +17,6 @@ class Applicants extends Model
     	'zip',
     	'experience',
     	'cdl',
+        'tenstreet',
     ];
 }

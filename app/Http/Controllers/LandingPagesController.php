@@ -8,6 +8,7 @@ use App\Publishers;
 use App\Clients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class LandingPagesController extends Controller
 {
@@ -22,7 +23,9 @@ class LandingPagesController extends Controller
      */
     public function index()
     {
-        $landingPages = LandingPages::all();
+        $landingPages = DB::table('landing_pages')
+            ->join('publishers', 'landing_pages.publisher', '=', 'publishers.id')
+            ->get();
 
         return view('landing-pages.index', compact('landingPages'));
     }

@@ -12,28 +12,32 @@
                         <ol class="breadcrumb mb-4">
                           <li class="breadcrumb-item active">Landing Pages</li>
                         </ol>
-<div class="container">
+<div class="container-wide">
   <div class="uper col-md-10">
     @if(session()->get('success'))
       <div class="alert alert-success">
         {{ session()->get('success') }}  
       </div><br />
     @endif
-    <table class="table table-striped">
+    <table class="table table-striped" id="datatablesSimple">
       <thead>
           <tr>
-            <td>ID</td>
             <td>Title</td>
             <td>Path</td>
+            <td>Phone Number</td>
+            <td>Publisher</td>
+            <td>Referral Code</td>
             <td colspan="2">Action</td>
           </tr>
       </thead>
       <tbody>
           @foreach($landingPages as $landingPage)
           <tr>
-              <td>{{$landingPage->id}}</td>
               <td>{{$landingPage->title}}</td>
               <td>{{$landingPage->path}}</td>
+              <td>{{$landingPage->phone}}</td>
+              <td>{{$landingPage->publisher}}</td>
+              <td>{{$landingPage->referral_code}}</td>
               <td>
                 <a href="{{ route('landing-pages.edit', $landingPage->id)}}" class="btn btn-primary">Edit/View</a>
                 <form action="{{ route('landing-pages.clone', $landingPage->id)}}" method="post">
@@ -41,13 +45,11 @@
                     @method('POST')
                     <button class="btn btn-primary" type="submit">Clone</button>
                 </form>
-              </td>
-              <td>
-                  <form action="{{ route('landing-pages.destroy', $landingPage->id)}}" method="post">
+                <form action="{{ route('landing-pages.destroy', $landingPage->id)}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-danger" type="submit">Delete</button>
-                  </form>
+                </form>
               </td>
           </tr>
           @endforeach 

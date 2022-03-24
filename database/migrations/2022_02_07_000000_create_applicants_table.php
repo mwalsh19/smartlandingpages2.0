@@ -25,6 +25,7 @@ class CreateApplicantsTable extends Migration
             $table->string('zip');
             $table->string('experience');
             $table->integer('cdl');
+            $table->integer('tenstreet')->default(0);
             $table->timestamps();
         });
     }

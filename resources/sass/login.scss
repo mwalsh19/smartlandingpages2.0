@@ -1,0 +1,167 @@
+
+ .login-container {
+ 	position: relative;
+	top: 200px;
+	left: 50%;
+	width: 800px;
+	margin-left: -250px;
+
+ 	.btn {
+ 		background: #006600;
+ 		border-color: transparent;
+ 		text-align: left;
+ 		border-radius: 0;
+ 		width: 125px;
+		text-align: center;
+		&:hover,&:active {
+			background: #006600;
+		}
+ 	}
+
+ 	input {
+ 		border-radius: 0;
+ 	}
+
+ 	a {
+ 	 	color: #3F3F3F;
+ 	}
+
+ 	h2 {
+ 		span:nth-child(1) {
+ 			color: #F39201;
+ 		}
+ 		span:nth-child(2) {
+ 			color: #929292;
+ 		}
+ 		span:nth-child(3) {
+ 			color: #3F3F3F;
+ 		}
+ 	}
+
+ 	.card {
+ 		background: transparent;
+ 	}
+
+ 	img {
+ 		width: 200px;
+ 	}
+
+ 	p {
+ 		color: #FFFFFF;
+ 	}
+ } 
+
+ .reset-container {
+ 	position: relative;
+	top: 200px;
+	left: 50%;
+	width: 800px;
+	margin-left: -400px;
+
+ 	.btn {
+ 		background: #006600;
+ 		border-color: transparent;
+ 		text-align: left;
+ 		border-radius: 0;
+ 		width: 250px;
+		text-align: center;
+		margin-left: -10px;
+		&:hover,&:active {
+			background: #006600;
+		}
+ 	}
+
+ 	input {
+ 		border-radius: 0;
+ 		width: 375px;
+		margin-left: -10px;
+ 	}
+
+ 	a {
+ 	 	color: #3F3F3F;
+ 	}
+
+ 	h2 {
+ 		span:nth-child(1) {
+ 			color: #F39201;
+ 		}
+ 		span:nth-child(2) {
+ 			color: #929292;
+ 		}
+ 		span:nth-child(3) {
+ 			color: #3F3F3F;
+ 		}
+ 	}
+
+ 	.card {
+ 		background: transparent;
+ 	}
+
+ 	img {
+ 		width: 200px;
+ 	}
+
+ 	p {
+ 		color: #FFFFFF;
+ 	}
+ } 
+
+ .verify-container {
+ 	position: relative;
+	top: 200px;
+	left: 50%;
+	width: 800px;
+	margin-left: -400px;
+
+ 	.btn {
+ 		background: #006600;
+ 		border-color: transparent;
+ 		text-align: left;
+ 		border-radius: 0;
+ 		width: 250px;
+		text-align: center;
+		margin-left: -10px;
+		color: #FFFFFF;
+		&:hover,&:active {
+			background: #006600;
+		}
+ 	}
+
+ 	button {
+ 		padding: 5px;
+ 	}
+
+ 	input {
+ 		border-radius: 0;
+ 		width: 375px;
+		margin-left: -10px;
+ 	}
+
+ 	a {
+ 	 	color: #3F3F3F;
+ 	}
+
+ 	h2 {
+ 		span:nth-child(1) {
+ 			color: #F39201;
+ 		}
+ 		span:nth-child(2) {
+ 			color: #929292;
+ 		}
+ 		span:nth-child(3) {
+ 			color: #3F3F3F;
+ 		}
+ 	}
+
+ 	.card {
+ 		background: transparent;
+ 	}
+
+ 	img {
+ 		width: 200px;
+ 	}
+
+ 	p, h4 {
+ 		color: #FFFFFF;
+ 	}
+ } 

@@ -18,5 +18,6 @@ class Applicants extends Model
     	'experience',
     	'cdl',
         'tenstreet',
+        'referral_code',
     ];
 }

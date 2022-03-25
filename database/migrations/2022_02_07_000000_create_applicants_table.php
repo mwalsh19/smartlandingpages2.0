@@ -26,6 +26,7 @@ class CreateApplicantsTable extends Migration
             $table->string('experience');
             $table->integer('cdl');
             $table->integer('tenstreet')->default(0);
+            $table->string('referral_code');
             $table->timestamps();
         });
     }

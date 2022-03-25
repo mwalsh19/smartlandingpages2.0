@@ -2,11 +2,22 @@
 @section('page-title', 'Reset Password')
 
 @section('content')
-<div class="container">
+<div class="reset-container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+
+                <div>
+                    <img src="/img/LACED-Agency-logo_2x-300x65.png" alt="Logo" />
+                </div>
+
+                <h2>
+                    <span>Smart</span><span>Landing</span>
+                    <span>Page System</span>
+                </h2>
+                <div>
+                    <p>Enter your email address below and we'll send you password reset instructions.</p>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -19,10 +30,9 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <input id="email" type="email" placeholder="Enter your email address..." class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -33,9 +43,9 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
+                                    {{ __('Send me reset instructions') }}
                                 </button>
                             </div>
                         </div>

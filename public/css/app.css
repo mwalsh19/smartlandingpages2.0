@@ -13268,6 +13268,184 @@ section {
   text-decoration: none;
 }
 
+.login-container {
+  position: relative;
+  top: 200px;
+  left: 50%;
+  width: 800px;
+  margin-left: -250px;
+}
+
+.login-container .btn {
+  background: #006600;
+  border-color: transparent;
+  text-align: left;
+  border-radius: 0;
+  width: 125px;
+  text-align: center;
+}
+
+.login-container .btn:hover,
+.login-container .btn:active {
+  background: #006600;
+}
+
+.login-container input {
+  border-radius: 0;
+}
+
+.login-container a {
+  color: #3F3F3F;
+}
+
+.login-container h2 span:nth-child(1) {
+  color: #F39201;
+}
+
+.login-container h2 span:nth-child(2) {
+  color: #929292;
+}
+
+.login-container h2 span:nth-child(3) {
+  color: #3F3F3F;
+}
+
+.login-container .card {
+  background: transparent;
+}
+
+.login-container img {
+  width: 200px;
+}
+
+.login-container p {
+  color: #FFFFFF;
+}
+
+.reset-container {
+  position: relative;
+  top: 200px;
+  left: 50%;
+  width: 800px;
+  margin-left: -400px;
+}
+
+.reset-container .btn {
+  background: #006600;
+  border-color: transparent;
+  text-align: left;
+  border-radius: 0;
+  width: 250px;
+  text-align: center;
+  margin-left: -10px;
+}
+
+.reset-container .btn:hover,
+.reset-container .btn:active {
+  background: #006600;
+}
+
+.reset-container input {
+  border-radius: 0;
+  width: 375px;
+  margin-left: -10px;
+}
+
+.reset-container a {
+  color: #3F3F3F;
+}
+
+.reset-container h2 span:nth-child(1) {
+  color: #F39201;
+}
+
+.reset-container h2 span:nth-child(2) {
+  color: #929292;
+}
+
+.reset-container h2 span:nth-child(3) {
+  color: #3F3F3F;
+}
+
+.reset-container .card {
+  background: transparent;
+}
+
+.reset-container img {
+  width: 200px;
+}
+
+.reset-container p {
+  color: #FFFFFF;
+}
+
+.verify-container {
+  position: relative;
+  top: 200px;
+  left: 50%;
+  width: 800px;
+  margin-left: -400px;
+}
+
+.verify-container .btn {
+  background: #006600;
+  border-color: transparent;
+  text-align: left;
+  border-radius: 0;
+  width: 250px;
+  text-align: center;
+  margin-left: -10px;
+  color: #FFFFFF;
+}
+
+.verify-container .btn:hover,
+.verify-container .btn:active {
+  background: #006600;
+}
+
+.verify-container button {
+  padding: 5px;
+}
+
+.verify-container input {
+  border-radius: 0;
+  width: 375px;
+  margin-left: -10px;
+}
+
+.verify-container a {
+  color: #3F3F3F;
+}
+
+.verify-container h2 span:nth-child(1) {
+  color: #F39201;
+}
+
+.verify-container h2 span:nth-child(2) {
+  color: #929292;
+}
+
+.verify-container h2 span:nth-child(3) {
+  color: #3F3F3F;
+}
+
+.verify-container .card {
+  background: transparent;
+}
+
+.verify-container img {
+  width: 200px;
+}
+
+.verify-container p,
+.verify-container h4 {
+  color: #FFFFFF;
+}
+
+body {
+  background: #FFFFFF;
+}
+
 /*!
 * Start Bootstrap - SB Admin v7.0.4 (https://startbootstrap.com/template/sb-admin)
 * Copyright 2013-2021 Start Bootstrap

@@ -13,7 +13,7 @@
                           <li class="breadcrumb-item active">Landing Pages</li>
                         </ol>
 <div class="container-wide">
-  <div class="uper col-md-10">
+  <div class="uper col-md-12">
     @if(session()->get('success'))
       <div class="alert alert-success">
         {{ session()->get('success') }}  
@@ -22,28 +22,28 @@
     <table class="table table-striped" id="datatablesSimple">
       <thead>
           <tr>
-            <td>Title</td>
-            <td>Path</td>
-            <td>Phone Number</td>
             <td>Publisher</td>
             <td>Referral Code</td>
+            <td>Phone Number</td>
+            <td>Path</td>
+            <td>Created</td>
             <td colspan="2">Action</td>
           </tr>
       </thead>
       <tbody>
           @foreach($landingPages as $landingPage)
           <tr>
-              <td>{{$landingPage->title}}</td>
-              <td>{{$landingPage->path}}</td>
-              <td>{{$landingPage->phone}}</td>
               <td>{{$landingPage->publisher}}</td>
               <td>{{$landingPage->referral_code}}</td>
+              <td>{{$landingPage->phone}}</td>
+              <td>{{$landingPage->path}}</td>
+              <td>{{$landingPage->created_at}}</td>
               <td>
                 <a href="{{ route('landing-pages.edit', $landingPage->id)}}" class="btn btn-primary">Edit/View</a>
                 <form action="{{ route('landing-pages.clone', $landingPage->id)}}" method="post">
                     @csrf
                     @method('POST')
-                    <button class="btn btn-primary" type="submit">Clone</button>
+                    <button class="btn btn-primary" type="submit">Clone/Duplicate</button>
                 </form>
                 <form action="{{ route('landing-pages.destroy', $landingPage->id)}}" method="post">
                     @csrf

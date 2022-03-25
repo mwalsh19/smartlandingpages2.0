@@ -13,7 +13,7 @@
                           <li class="breadcrumb-item active">Templates</li>
                         </ol>
 <div class="container">
-  <div class="uper col-md-10">
+  <div class="uper col-md-12">
     @if(session()->get('success'))
       <div class="alert alert-success">
         {{ session()->get('success') }}  
@@ -22,7 +22,6 @@
     <table class="table table-striped" id="datatablesSimple">
       <thead>
           <tr>
-            <td>ID</td>
             <td>Name</td>
             <td colspan="2">Action</td>
           </tr>
@@ -30,10 +29,9 @@
       <tbody>
           @foreach($templates as $template)
           <tr>
-              <td>{{$template->id}}</td>
               <td>{{$template->name}}</td>
-              <td><a href="{{ route('templates.edit', $template->id)}}" class="btn btn-primary">Edit</a></td>
               <td>
+                  <a href="{{ route('templates.edit', $template->id)}}" class="btn btn-primary">Edit</a>
                   <form action="{{ route('templates.destroy', $template->id)}}" method="post">
                     @csrf
                     @method('DELETE')

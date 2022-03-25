@@ -13,7 +13,7 @@
                           <li class="breadcrumb-item active">Clients</li>
                         </ol>
 <div class="container">
-  <div class="uper col-md-10">
+  <div class="uper col-md-12">
     @if(session()->get('success'))
       <div class="alert alert-success">
         {{ session()->get('success') }}  
@@ -22,25 +22,23 @@
     <table class="table table-striped" id="datatablesSimple">
       <thead>
           <tr>
-            <td>ID</td>
-            <td>Logo</td>
             <td>Name</td>
+            <td>Logo</td>
             <td colspan="2">Action</td>
           </tr>
       </thead>
       <tbody>
           @foreach($clients as $client)
           <tr>
-              <td>{{$client->id}}</td>
-              <td><img src="/uploads/logos/{{ $client->logo }}" style="width:100px; height:100px;"></td>
               <td>{{$client->name}}</td>
-              <td><a href="{{ route('clients.edit', $client->id)}}" class="btn btn-primary">Edit</a></td>
+              <td><img src="/uploads/logos/{{ $client->logo }}" alt="{{$client->name}}"></td>
               <td>
-                  <form action="{{ route('clients.destroy', $client->id)}}" method="post">
+                <a href="{{ route('clients.edit', $client->id)}}" class="btn btn-primary">Edit</a>
+                <form action="{{ route('clients.destroy', $client->id)}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-danger" type="submit">Delete</button>
-                  </form>
+                </form>
               </td>
           </tr>
           @endforeach

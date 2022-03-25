@@ -26333,3 +26333,8 @@ body {
   border-radius: 50%;
 }
 
+table form {
+  width: auto;
+  display: inline-block;
+}
+

@@ -13,7 +13,7 @@
                           <li class="breadcrumb-item active">Applicants</li>
                         </ol>
 <div class="container">
-  <div class="uper col-md-10">
+  <div class="uper col-md-12">
     @if(session()->get('success'))
       <div class="alert alert-success">
         {{ session()->get('success') }}  
@@ -22,13 +22,11 @@
     <table class="table table-striped" id="datatablesSimple">
       <thead>
           <tr>
-            <td>ID</td>
             <td>First Name</td>
             <td>Last Name</td>
             <td>Email</td>
             <td>Phone</td>
-            <td>Experience</td>
-            <td>CDL</td>
+            <td>Zip Code</td>
             <td>Tenstreet</td>
             <td>Referral Code</td>
             <td colspan="2">Action</td>
@@ -37,13 +35,11 @@
       <tbody>
           @foreach($applicants as $applicant)
           <tr>
-              <td>{{$applicant->id}}</td>
               <td>{{$applicant->first_name}}</td>
               <td>{{$applicant->last_name}}</td>
               <td>{{$applicant->email}}</td>
               <td>{{$applicant->phone_number}}</td>
-              <td>{{$applicant->experience}}</td>
-              <td>{{$applicant->cdl === 1 ? 'Yes' : 'No'}}</td>
+              <td>{{$applicant->zip}}</td>
               <td>{{$applicant->tenstreet === 1 ? 'Submitted' : 'Not Submitted'}}</td>
               <td>{{$applicant->referral_code}}</td>
               <td>

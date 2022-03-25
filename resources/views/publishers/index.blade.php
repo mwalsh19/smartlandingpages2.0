@@ -13,7 +13,7 @@
                           <li class="breadcrumb-item active">Publishers</li>
                         </ol>
 <div class="container">
-  <div class="uper col-md-10">
+  <div class="uper col-md-12">
     @if(session()->get('success'))
       <div class="alert alert-success">
         {{ session()->get('success') }}  
@@ -22,7 +22,6 @@
     <table class="table table-striped" id="datatablesSimple">
       <thead>
           <tr>
-            <td>ID</td>
             <td>Publisher</td>
             <td>Pixel</td>
             <td colspan="2">Action</td>
@@ -31,11 +30,10 @@
       <tbody>
           @foreach($publishers as $publisher)
           <tr>
-              <td>{{$publisher->id}}</td>
               <td>{{$publisher->publisher}}</td>
               <td>{{$publisher->pixel}}</td>
-              <td><a href="{{ route('publishers.edit', $publisher->id)}}" class="btn btn-primary">Edit</a></td>
               <td>
+                  <a href="{{ route('publishers.edit', $publisher->id)}}" class="btn btn-primary">Edit</a>
                   <form action="{{ route('publishers.destroy', $publisher->id)}}" method="post">
                     @csrf
                     @method('DELETE')

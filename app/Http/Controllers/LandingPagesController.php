@@ -24,7 +24,8 @@ class LandingPagesController extends Controller
     public function index()
     {
         $landingPages = DB::table('landing_pages')
-            ->join('publishers', 'landing_pages.publisher', '=', 'publishers.id')
+            ->join('publishers', 'publishers.id', '=', 'landing_pages.publisher')
+            ->select('landing_pages.*', 'publishers.publisher')
             ->get();
 
         return view('landing-pages.index', compact('landingPages'));

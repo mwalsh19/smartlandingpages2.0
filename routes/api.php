@@ -20,4 +20,4 @@ Route::post('applicants', 'ApplicantAPIController@store');
 Route::put('applicants/{id}', 'ApplicantAPIController@update');
 Route::delete('applicants/{id}', 'ApplicantAPIController@delete');
 
-Route::get('landing-page/{path}', 'LandingPagesAPIController@show');
+Route::get('landing-page/{path}/{publisher}', 'LandingPagesAPIController@show');

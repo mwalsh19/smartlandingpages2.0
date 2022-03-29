@@ -16,7 +16,7 @@ class CreatePublisherTable extends Migration
         Schema::create('publishers', function (Blueprint $table) {
             $table->id();
             $table->string('publisher');
-            $table->string('pixel');
+            $table->string('pixel')->nullable();
             $table->timestamps();
         });
     }

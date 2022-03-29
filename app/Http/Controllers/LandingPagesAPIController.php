@@ -13,13 +13,30 @@ class LandingPagesAPIController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function show($path)
+    public function show($path, $publisher)
     {
     	$landingPageData = [];
 
-    	$landingPage = $landingPage = DB::table('landing_pages')
-            ->where('path', $path)
+        $publisherQuery = DB::table('publishers')
+            ->where('publisher', '=', $publisher)
             ->get();
+
+        if (!$publisherQuery) {
+            return response()->json([
+                'data' => 'Resource not found'
+            ], 404);
+        }
+
+    	$landingPage = DB::table('landing_pages')
+            ->where('path', '=', $path)
+            ->where('publisher', '=', $publisherQuery[0]->id)
+            ->get();
+
+        if (!$landingPage) {
+            return response()->json([
+                'data' => 'Resource not found'
+            ], 404);
+        }
 
         if (count($landingPage) > 0) {
  
@@ -41,10 +58,12 @@ class LandingPagesAPIController extends Controller
             $landingPageData['publisher'] = $publisher[0];
 
         	return response()->json($landingPageData, 200);
-        }
-        return response()->json([
+        } else {
+            return response()->json([
                 'data' => 'Resource not found'
             ], 404);
+        }
+        
     } 
 }
 

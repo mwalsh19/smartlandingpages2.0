@@ -17,7 +17,7 @@ class CreateLandingpagesTable extends Migration
             $table->id();
             $table->integer('template_id')->default(0);
             $table->integer('client_id')->nullable();
-            $table->string('path')->unique();
+            $table->string('path');
             $table->string('publisher')->nullable();
             $table->string('title')->nullable();
             $table->string('referral_code')->nullable();

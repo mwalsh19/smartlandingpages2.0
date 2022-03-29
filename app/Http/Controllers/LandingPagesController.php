@@ -53,7 +53,7 @@ class LandingPagesController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'path' => 'required|max:255|unique:landing_pages',
+            'path' => 'required|max:255',
             'title' => 'required|max:255',
             'template_id' => 'required',
             'client_id' => 'required',
@@ -216,7 +216,9 @@ class LandingPagesController extends Controller
         LandingPages::whereId($id)->update($validatedData);
 
         if ($request->old_path !== $request->path) {
-            rename('uploads/' . $request->old_path, 'uploads/' . $request->path);
+            //rename('uploads/' . $request->old_path, 'uploads/' . $request->path);
+            //copy('exist/test.png'), public_path('copy/test_copy.png'));
+            $this->recursive_files_copy('uploads/' . $request->old_path, 'uploads/' . $request->path);
         }
 
         return redirect('/dashboard/landing-pages')->with('success', 'Landing Page was successfully updated');
@@ -243,6 +245,7 @@ class LandingPagesController extends Controller
         $original_path = $landingPage->path;
 
         $clonedLandingPage = $landingPage;
+        $clonedLandingPage['title'] = 'cloned-' . $landingPage->title;
         $clonedLandingPage['path'] = 'cloned-' . $landingPage->path;
 
 
@@ -276,7 +279,7 @@ class LandingPagesController extends Controller
                 if(is_dir($source_dir.'/'.$file))
                 {
                     // Recursively calling this function for sub directory  
-                    recursive_files_copy($source_dir.'/'.$file, $destination_dir.'/'.$file);
+                    $this->recursive_files_copy($source_dir.'/'.$file, $destination_dir.'/'.$file);
                 }
                 else
                 {
@@ -373,7 +376,8 @@ class LandingPagesController extends Controller
     protected function validator(array $data, $userId)
     {
         return Validator::make($data, [
-            'path' => 'required|max:255|unique:landing_pages,path,' . $userId,
+            //'path' => 'required|max:255|unique:landing_pages,path,' . $userId,
+            'path' => 'required|max:255',
             'title' => 'required|max:255',
             'template_id' => 'required',
             'client_id' => 'required',

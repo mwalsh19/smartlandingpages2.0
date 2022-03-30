@@ -27,6 +27,7 @@ Route::post('users/change-password', 'UsersController@changePasswordStore')->nam
 Route::resource('dashboard/clients', 'ClientController')->middleware('verified');
 Route::resource('dashboard/templates', 'TemplateController')->middleware('verified');
 Route::resource('dashboard/applicants', 'ApplicantController')->middleware('verified');
+Route::post('dashboard/applicants/tenstreet/{id}', 'ApplicantController@tenstreet')->middleware('verified')->name('applicants.tenstreet');
 Route::resource('dashboard/publishers', 'PublisherController')->middleware('verified');
 Route::post('dashboard/landing-pages/clone/{id}', 'LandingPagesController@clone')->middleware('verified')->name('landing-pages.clone');
 Route::resource('dashboard/landing-pages', 'LandingPagesController')->middleware('verified');

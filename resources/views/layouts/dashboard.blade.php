@@ -22,11 +22,10 @@
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
 
-
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.17.2/ckeditor.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js" integrity="sha512-94dgCw8xWrVcgkmOc2fwKjO4dqy/X3q7IjFru6MHJKeaAzCvhkVtOS6S+co+RbcZvvPBngLzuVMApmxkuWZGwQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js" integrity="sha512-94dgCw8xWrVcgkmOc2fwKjO4dqy/X3q7IjFru6MHJKeaAzCvhkVtOS6S+co+RbcZvvPBngLzuVMApmxkuWZGwQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 </head>
 <body class="sb-nav-fixed">
     <div id="app"> 
@@ -89,25 +88,14 @@
                                 Applicants
                             </a>
                             <a class="nav-link" href="{{ route('publishers.index') }}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-calendar"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
                                 Publishers
                             </a>
                             <a class="nav-link" href="{{ route('landing-pages.index') }}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-calendar"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                 Landing Pages
                             </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-calendar"></i></div>
-                                Events
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">All Events</a>
-                                    <a class="nav-link" href="#">Create</a>
-                                </nav>
-                            </div>
+                            <div class="sb-sidenav-menu-heading">Management</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsers" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                 Users
@@ -117,49 +105,8 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="{{ route('users.index') }}">All Users</a>
                                     <a class="nav-link" href="{{ route('users.create') }}">Create</a>
-                                    <a class="nav-link" href="#">Roles</a> 
                                 </nav>
                             </div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Authentication
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="#">Login</a>
-                                            <a class="nav-link" href="#">Register</a>
-                                            <a class="nav-link" href="#">Forgot Password</a>
-                                        </nav>
-                                    </div>
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                        Error
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="#">401 Page</a>
-                                            <a class="nav-link" href="#">404 Page</a>
-                                            <a class="nav-link" href="#">500 Page</a>
-                                        </nav>
-                                    </div>
-                                </nav>
-                            </div>
-                            <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="#">
-                                <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
-                                Activity Log
-                            </a>
-                            <a class="nav-link" href="#">
-                                <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
-                                Contact Inbox
-                            </a>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -188,16 +135,16 @@
         </div>
     </div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <!--<script src="js/scripts.js"></script>-->
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="{{ asset('demo/chart-area-demo.js') }}"></script>   
-        <script src="{{ asset('demo/chart-bar-demo.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="{{ asset('demo/chart-bar-demo.js') }}"></script> -->
+        <script src="{{ asset('js/datatables.js') }}"></script>
         <script src="{{ asset('demo/datatables-simple-demo.js') }}"></script>
-        <script>
+        <!--<script>
             $(function () {
               $('#color_scheme_headline').colorpicker();
             });
-        </script>
+        </script> -->
 </body>
 </html>

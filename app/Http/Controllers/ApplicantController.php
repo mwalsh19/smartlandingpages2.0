@@ -92,4 +92,9 @@ class ApplicantController extends Controller
 
         return redirect('/dashboard/applicants')->with('success', 'Applicant was successfully deleted');
     }
+
+    public function tenstreet($id)
+    {
+        return redirect('/dashboard/applicants')->with('success', 'Applicant was submitted to tenstreet');
+    }
 }

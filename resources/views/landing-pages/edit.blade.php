@@ -95,6 +95,22 @@
               </div>
             </div>
             <div class="form-group">
+              <label for="referral_code">Referral Code (Lead Form):</label>
+              <input type="text" class="form-control" name="referral_code" id="referral_code" value="{{ $landingPage->referral_code }}" />
+            </div>
+            <div class="form-group">
+              <label for="referral_code_intelliapp">Referral Code (Intelliapp):</label>
+              <input type="text" class="form-control" name="referral_code_intelliapp" id="referral_code_intelliapp" value="{{ $landingPage->referral_code_intelliapp }}" />
+            </div>
+            <div class="form-group">
+              <label for="ga_lp">Google Analytics Landing Page:</label>
+              <input type="text" class="form-control" name="ga_lp" id="ga_lp" value="{{ $landingPage->ga_lp }}" />
+            </div>
+            <div class="form-group">
+              <label for="ga_tp">Google Analytics Thank You Page:</label>
+              <input type="text" class="form-control" name="ga_tp" id="ga_tp" value="{{ $landingPage->ga_tp }}" />
+            </div>
+            <div class="form-group">
                 <label for="title">Title:</label>
                 <input type="text" class="form-control" name="title" id="title" value="{{ $landingPage->title }}" />
             </div>
@@ -115,32 +131,6 @@
                 <textarea class="ckeditor form-control" name="main_description" id="main_description">
                   {{ $landingPage->main_description }}
                 </textarea>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                    <label for="ga_lp">Google Analytics Landing Page:</label>
-                    <input type="text" class="form-control" name="ga_lp" id="ga_lp" value="{{ $landingPage->ga_lp }}" />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                    <label for="ga_tp">Google Analytics Thank You Page:</label>
-                    <input type="text" class="form-control" name="ga_tp" id="ga_tp" value="{{ $landingPage->ga_tp }}" />
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label for="referral_code">Referral Code (Lead Form):</label>
-                  <input type="text" class="form-control" name="referral_code" id="referral_code" value="{{ $landingPage->referral_code }}" />
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label for="referral_code_intelliapp">Referral Code (Intelliapp):</label>
-                  <input type="text" class="form-control" name="referral_code_intelliapp" id="referral_code_intelliapp" value="{{ $landingPage->referral_code_intelliapp }}" />
-                </div>
-              </div>
             </div>
             <div class="form-group">
                 <label for="body_copy">Body Copy</label>

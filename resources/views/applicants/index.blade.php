@@ -43,11 +43,11 @@
               <td>{{$applicant->tenstreet === 1 ? 'Submitted' : 'Not Submitted'}}</td>
               <td>{{$applicant->referral_code}}</td>
               <td>
-                <a href="{{ route('applicants.show', $applicant->id)}}" class="btn btn-primary">View</a>
+                <a href="{{ route('applicants.show', $applicant->id)}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
                   <form action="{{ route('applicants.destroy', $applicant->id)}}" method="post">
                     @csrf
                     @method('DELETE')
-                    <button class="btn btn-danger" type="submit">Delete</button>
+                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button>
                   </form>
               </td>
           </tr>

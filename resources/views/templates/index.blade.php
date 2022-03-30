@@ -31,11 +31,11 @@
           <tr>
               <td>{{$template->name}}</td>
               <td>
-                  <a href="{{ route('templates.edit', $template->id)}}" class="btn btn-primary">Edit</a>
+                  <a href="{{ route('templates.edit', $template->id)}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                   <form action="{{ route('templates.destroy', $template->id)}}" method="post">
                     @csrf
                     @method('DELETE')
-                    <button class="btn btn-danger" type="submit">Delete</button>
+                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button>
                   </form>
               </td>
           </tr>

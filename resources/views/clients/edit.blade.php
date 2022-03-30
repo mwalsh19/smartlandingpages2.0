@@ -42,7 +42,7 @@
             <div class="row">
               <div class="col-md-12">
                   <label for="logo">Logo:</label><br />
-                  <img src="/uploads/logos/{{ $client->logo }}" style="width:100px; height:100px;">
+                  <img src="/uploads/logos/{{ $client->logo }}">
                   <input type="file" name="logo" class="form-control">
               </div>
             </div>

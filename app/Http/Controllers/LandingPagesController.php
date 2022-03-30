@@ -26,6 +26,7 @@ class LandingPagesController extends Controller
         $landingPages = DB::table('landing_pages')
             ->join('publishers', 'publishers.id', '=', 'landing_pages.publisher')
             ->select('landing_pages.*', 'publishers.publisher')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('landing-pages.index', compact('landingPages'));

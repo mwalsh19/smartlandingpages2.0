@@ -33,11 +33,11 @@
               <td>{{$client->name}}</td>
               <td><img src="/uploads/logos/{{ $client->logo }}" alt="{{$client->name}}"></td>
               <td>
-                <a href="{{ route('clients.edit', $client->id)}}" class="btn btn-primary">Edit</a>
+                <a href="{{ route('clients.edit', $client->id)}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                 <form action="{{ route('clients.destroy', $client->id)}}" method="post">
                     @csrf
                     @method('DELETE')
-                    <button class="btn btn-danger" type="submit">Delete</button>
+                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button>
                 </form>
               </td>
           </tr>

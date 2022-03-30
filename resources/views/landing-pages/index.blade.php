@@ -36,19 +36,19 @@
               <td>{{$landingPage->publisher}}</td>
               <td>{{$landingPage->referral_code}}</td>
               <td>{{$landingPage->phone}}</td>
-              <td>{{$landingPage->path}}</td>
+              <td>{{$landingPage->path}}/{{$landingPage->publisher}} </td>
               <td>{{$landingPage->created_at}}</td>
               <td>
-                <a href="{{ route('landing-pages.edit', $landingPage->id)}}" class="btn btn-primary">Edit/View</a>
+                <a href="{{ route('landing-pages.edit', $landingPage->id)}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                 <form action="{{ route('landing-pages.clone', $landingPage->id)}}" method="post">
                     @csrf
                     @method('POST')
-                    <button class="btn btn-primary" type="submit">Clone/Duplicate</button>
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-copy"></i></button>
                 </form>
                 <form action="{{ route('landing-pages.destroy', $landingPage->id)}}" method="post">
                     @csrf
                     @method('DELETE')
-                    <button class="btn btn-danger" type="submit">Delete</button>
+                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button>
                 </form>
               </td>
           </tr>

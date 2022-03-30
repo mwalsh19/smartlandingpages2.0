@@ -33,11 +33,11 @@
               <td>{{$publisher->publisher}}</td>
               <td>{{$publisher->pixel}}</td>
               <td>
-                  <a href="{{ route('publishers.edit', $publisher->id)}}" class="btn btn-primary">Edit</a>
+                  <a href="{{ route('publishers.edit', $publisher->id)}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                   <form action="{{ route('publishers.destroy', $publisher->id)}}" method="post">
                     @csrf
                     @method('DELETE')
-                    <button class="btn btn-danger" type="submit">Delete</button>
+                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button>
                   </form>
               </td>
           </tr>

@@ -13,7 +13,7 @@ class LandingPagesAPIController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function show($path, $publisher)
+    public function show($path, $publisher, $version = null)
     {
     	$landingPageData = [];
 
@@ -27,37 +27,65 @@ class LandingPagesAPIController extends Controller
             ], 404);
         }
 
-    	$landingPage = DB::table('landing_pages')
-            ->where('path', '=', $path)
-            ->where('publisher', '=', $publisherQuery[0]->id)
-            ->get();
+        if ($version) {
 
-        if (!$landingPage) {
-            return response()->json([
-                'data' => 'Resource not found'
-            ], 404);
+            $templateQuery = DB::table('templates')
+                ->where('name', '=', $version)
+                ->get();
+
+            if (!$templateQuery) {
+                return response()->json([
+                    'data' => 'Resource not found'
+                ], 404);
+            }
+
+            $landingPage = DB::table('landing_pages')
+                ->where('path', '=', $path)
+                ->where('publisher', '=', $publisherQuery[0]->id)
+                ->where('template_id', '=', $templateQuery[0]->id)
+                ->get();
+
+            if (!$landingPage) {
+                return response()->json([
+                    'data' => 'Resource not found'
+                ], 404);
+            }
+
+        } else {
+
+            $landingPage = DB::table('landing_pages')
+                ->where('path', '=', $path)
+                ->where('publisher', '=', $publisherQuery[0]->id)
+                ->get();
+
+            if (!$landingPage) {
+                return response()->json([
+                    'data' => 'Resource not found'
+                ], 404);
+            }
         }
 
         if (count($landingPage) > 0) {
  
-        	$client = DB::table('clients')
-	            ->where('id', $landingPage[0]->client_id)
-	            ->get(); 
+                $client = DB::table('clients')
+                    ->where('id', $landingPage[0]->client_id)
+                    ->get(); 
 
-	        $template = DB::table('templates')
-	            ->where('id', $landingPage[0]->template_id)
-	            ->get(); 
+                $template = DB::table('templates')
+                    ->where('id', $landingPage[0]->template_id)
+                    ->get(); 
 
-            $publisher = DB::table('publishers')
-                ->where('id', $landingPage[0]->publisher)
-                ->get(); 
+                $publisher = DB::table('publishers')
+                    ->where('id', $landingPage[0]->publisher)
+                    ->get(); 
 
-	    	$landingPageData['landingPage'] = $landingPage[0];
-	    	$landingPageData['client'] = $client[0];
-	    	$landingPageData['template'] = $template[0];
-            $landingPageData['publisher'] = $publisher[0];
+                $landingPageData['landingPage'] = $landingPage[0];
+                $landingPageData['client'] = $client[0];
+                $landingPageData['template'] = $template[0];
+                $landingPageData['publisher'] = $publisher[0];
 
-        	return response()->json($landingPageData, 200);
+                return response()->json($landingPageData, 200);
+
         } else {
             return response()->json([
                 'data' => 'Resource not found'

@@ -21,3 +21,4 @@ Route::put('applicants/{id}', 'ApplicantAPIController@update');
 Route::delete('applicants/{id}', 'ApplicantAPIController@delete');
 
 Route::get('landing-page/{path}/{publisher}', 'LandingPagesAPIController@show');
+Route::get('landing-page/{path}/{publisher}/{version}', 'LandingPagesAPIController@show');

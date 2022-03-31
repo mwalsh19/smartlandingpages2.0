@@ -36,7 +36,7 @@
               <td>{{$landingPage->publisher}}</td>
               <td>{{$landingPage->referral_code}}</td>
               <td>{{$landingPage->phone}}</td>
-              <td>{{$landingPage->path}}/{{$landingPage->publisher}} </td>
+              <td>{{$landingPage->path}}/{{$landingPage->publisher}}/{{$landingPage->name}} </td>
               <td>{{$landingPage->created_at}}</td>
               <td>
                 <a href="{{ route('landing-pages.edit', $landingPage->id)}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>

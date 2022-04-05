@@ -19,6 +19,11 @@
         {{ session()->get('success') }}  
       </div><br />
     @endif
+    @if(session()->get('error'))
+      <div class="alert alert-warning">
+        {{ session()->get('error') }}  
+      </div><br />
+    @endif
     <table class="table table-striped" id="datatablesSimple">
       <thead>
           <tr>

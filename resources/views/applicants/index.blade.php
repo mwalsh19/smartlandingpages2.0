@@ -19,6 +19,11 @@
         {{ session()->get('success') }}  
       </div><br />
     @endif
+    @if(session()->get('error'))
+      <div class="alert alert-warning">
+        {{ session()->get('error') }}  
+      </div><br />
+    @endif
     <table class="table table-striped" id="datatablesSimple">
       <thead>
           <tr>
@@ -44,11 +49,6 @@
               <td>{{$applicant->referral_code}}</td>
               <td>
                 <a href="{{ route('applicants.show', $applicant->id)}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                  <form action="{{ route('applicants.tenstreet', $applicant->id)}}" method="post">
-                    @csrf
-                    @method('POST')
-                    <button class="btn btn-danger" type="submit"><i class="fas fa-upload"></i></button>
-                  </form>
                   <form action="{{ route('applicants.destroy', $applicant->id)}}" method="post">
                     @csrf
                     @method('DELETE')

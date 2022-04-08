@@ -32,7 +32,6 @@
             <td>Email</td>
             <td>Phone</td>
             <td>Zip Code</td>
-            <td>Tenstreet</td>
             <td>Referral Code</td>
             <td colspan="2">Action</td>
           </tr>
@@ -45,7 +44,6 @@
               <td>{{$applicant->email}}</td>
               <td>{{$applicant->phone_number}}</td>
               <td>{{$applicant->zip}}</td>
-              <td>{{$applicant->tenstreet === 1 ? 'Submitted' : 'Not Submitted'}}</td>
               <td>{{$applicant->referral_code}}</td>
               <td>
                 <a href="{{ route('applicants.show', $applicant->id)}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>

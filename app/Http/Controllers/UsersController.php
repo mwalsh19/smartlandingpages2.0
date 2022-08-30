@@ -9,8 +9,8 @@ use App\User;
 use App\UsersProfile;
 use App\UsersSetting;
 use Illuminate\Support\Facades\Hash;
-//use Spatie\Permission\Models\Role;
-//use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -40,9 +40,9 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //$roles = \Spatie\Permission\Models\Role::all();
-        //return view('users.create', compact('roles'));
-        return view('users.create');
+        $roles = \Spatie\Permission\Models\Role::all();
+        return view('users.create', compact('roles'));
+        //return view('users.create');
     }
 
     /**
@@ -63,9 +63,9 @@ class UsersController extends Controller
         //activity()->log('Created New User');
 
         // assign user a role
-        //$user->assignRole($request->role);
+        $user->assignRole($request->role);
         //activity()->log('Assigned new user a role: ' . $request->role);
-   
+
         return redirect('/dashboard/users')->with('success', 'User Successfully Created.');
     }
 
@@ -89,12 +89,12 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        //$roles = \Spatie\Permission\Models\Role::all();
+        $roles = \Spatie\Permission\Models\Role::all();
         // get user roles 
-        //$userRoles = $user->getRoleNames();
+        $userRoles = $user->getRoleNames();
 
-        //return view('users.edit', compact('user', 'roles', 'userRoles'));
-        return view('users.edit', compact('user'));
+        return view('users.edit', compact('user', 'roles', 'userRoles'));
+        //return view('users.edit', compact('user'));
     }
 
     /**
@@ -115,29 +115,31 @@ class UsersController extends Controller
         $userAuth = auth()->user();
         $user = User::findOrFail($id);
 
+        // if admin user
+        if ($user->id === 1) {
+            if ($request->input('is_active')[0] != $user->is_active || $request->role !== $user->getRoleNames()[0]) {
+                return back()->with('error', 'Admin roles and status cannot be changed.');
+            }
+        }
+
+        // if this is you
         if ($userAuth->id === $user->id) {
             /*if ($request->role !== $user->getRoleNames()[0]) { 
                 return back()->with('error', 'You cannot update your own roles and permissions.');
             }*/
 
-            if ($user->id === 1) {
-                if ($request->input('is_active')[0] != $user->is_active) { 
-                    return back()->with('error', 'Admin roles and status cannot be changed.');
-                }
-            }
-
-            if ($request->input('is_active')[0] != $user->is_active) { 
+            if ($request->input('is_active')[0] != $user->is_active) {
                 return back()->with('error', 'You cannot change your own status, please contact administrator.');
             }
-        } 
+        }
 
         $user->update($validatedData);
 
         // remove all user permissions
-        //$user->syncRoles([]);
+        $user->syncRoles([]);
         // assign user a role
-        //$user->assignRole($request->role);
-       
+        $user->assignRole($request->role);
+
         return redirect('/dashboard/users')->with('success', 'User Successfully Updated.');
     }
 
@@ -147,25 +149,24 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($userId) 
+    public function destroy($userId)
     {
         $userAuth = auth()->user();
         $user = User::findOrFail($userId);
         if ($userAuth->id === $user->id) {
             return redirect('/dashboard/users')->with('error', 'You cannot delete yourself.');
-        } 
+        }
 
         if ($user->id === 1) {
             return redirect('/dashboard/users')->with('error', 'You cannot delete the main admin user.');
-        } 
- 
+        }
+
         $user->delete();
         //DB::table('users_profiles')->where('user_id', $userId)->delete();
         //DB::table('users_settings')->where('user_id', $userId)->delete();
 
         //activity()->log('Deleted User');
         return redirect('/dashboard/users')->with('success', $user->name . ' was removed.');
-
     }
 
     public function changePassword()

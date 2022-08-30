@@ -23,12 +23,41 @@ class LandingPagesController extends Controller
      */
     public function index()
     {
-        $landingPages = DB::table('landing_pages')
-            ->join('publishers', 'publishers.id', '=', 'landing_pages.publisher')
-            ->join('templates', 'templates.id', '=', 'landing_pages.template_id')
-            ->select('landing_pages.*', 'publishers.publisher', 'templates.name')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $userAuth = auth()->user();
+        if ($userAuth->getRoleNames()[0] === 'Admin' || $userAuth->getRoleNames()[0] === 'Analyst') {
+
+            $landingPages = DB::table('landing_pages')
+                ->join('publishers', 'publishers.id', '=', 'landing_pages.publisher')
+                ->join('templates', 'templates.id', '=', 'landing_pages.template_id')
+                ->join('clients', 'clients.id', '=', 'landing_pages.client_id')
+                ->select('landing_pages.*', 'publishers.publisher', 'templates.name', 'clients.website')
+                ->orderBy('created_at', 'desc')
+                ->get();
+        } else if ($userAuth->getRoleNames()[0] === 'SystemTrans User') {
+
+            $landingPages = DB::table('landing_pages')
+                ->join('publishers', 'publishers.id', '=', 'landing_pages.publisher')
+                ->join('templates', 'templates.id', '=', 'landing_pages.template_id')
+                ->join('clients', 'clients.id', '=', 'landing_pages.client_id')
+                ->select('landing_pages.*', 'publishers.publisher', 'templates.name', 'clients.website')
+                ->orderBy('created_at', 'desc')
+                ->where('client_id', '=', '1')
+                ->orWhere('client_id', '=', '4')
+                ->orWhere('client_id', '=', '5')
+                ->get();
+        } else if ($userAuth->getRoleNames()[0] === 'CRST User') {
+
+            $landingPages = DB::table('landing_pages')
+                ->join('publishers', 'publishers.id', '=', 'landing_pages.publisher')
+                ->join('templates', 'templates.id', '=', 'landing_pages.template_id')
+                ->join('clients', 'clients.id', '=', 'landing_pages.client_id')
+                ->select('landing_pages.*', 'publishers.publisher', 'templates.name', 'clients.website')
+                ->orderBy('created_at', 'desc')
+                ->where('client_id', '=', '6')
+                ->get();
+        } else {
+            return redirect('/dashboard')->with('error', 'Permission Denied.');
+        }
 
         return view('landing-pages.index', compact('landingPages'));
     }
@@ -69,6 +98,8 @@ class LandingPagesController extends Controller
             'sub_title' => 'required|max:255',
             'ga_lp' => 'max:255',
             'ga_tp' => 'max:255',
+            'primary_video_link' => 'max:255',
+            'secondary_description' => 'max:255',
             'background' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'background_mobile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'body_image_2' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -94,84 +125,145 @@ class LandingPagesController extends Controller
             'benef4_figure' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'benef5_figure' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'benef6_figure' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_1_title' => 'max:255',
+            'extra_section_2_title' => 'max:255',
+            'extra_section_3_title' => 'max:255',
+            'extra_section_4_title' => 'max:255',
+            'extra_section_5_title' => 'max:255',
+            'extra_section_6_title' => 'max:255',
+            'extra_section_1_video_link' => 'max:255',
+            'extra_section_2_video_link' => 'max:255',
+            'extra_section_3_video_link' => 'max:255',
+            'extra_section_4_video_link' => 'max:255',
+            'extra_section_5_video_link' => 'max:255',
+            'extra_section_6_video_link' => 'max:255',
+            'extra_section_1_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_2_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_3_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_4_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_5_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_6_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_1_caption' => 'max:2000',
+            'extra_section_2_caption' => 'max:2000',
+            'extra_section_3_caption' => 'max:2000',
+            'extra_section_4_caption' => 'max:2000',
+            'extra_section_5_caption' => 'max:2000',
+            'extra_section_6_caption' => 'max:2000',
         ]);
 
         $filepath = 'uploads/' . $validatedData['path'];
 
         if ($request->background) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->background->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->background->extension();
             $validatedData['background'] = $imageBackground;
             $request->background->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->background_mobile) {
-            $image = time().rand(1000,9999).'.'.$request->background_mobile->extension(); 
+            $image = time() . rand(1000, 9999) . '.' . $request->background_mobile->extension();
             $validatedData['background_mobile'] = $image;
             $request->background_mobile->move(public_path($filepath), $image);
         }
 
         if ($request->body_image_2) {
-            $image = time().rand(1000,9999).'.'.$request->body_image_2->extension(); 
+            $image = time() . rand(1000, 9999) . '.' . $request->body_image_2->extension();
             $validatedData['body_image_2'] = $image;
             $request->body_image_2->move(public_path($filepath), $image);
         }
 
         if ($request->region_graphic) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->region_graphic->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->region_graphic->extension();
             $validatedData['region_graphic'] = $imageBackground;
             $request->region_graphic->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->region_graphic_mobile) {
-            $image = time().rand(1000,9999).'.'.$request->region_graphic_mobile->extension(); 
+            $image = time() . rand(1000, 9999) . '.' . $request->region_graphic_mobile->extension();
             $validatedData['region_graphic_mobile'] = $image;
             $request->region_graphic_mobile->move(public_path($filepath), $image);
         }
 
         if ($request->body_image_4) {
-            $image = time().rand(1000,9999).'.'.$request->body_image_4->extension(); 
+            $image = time() . rand(1000, 9999) . '.' . $request->body_image_4->extension();
             $validatedData['body_image_4'] = $image;
             $request->body_image_4->move(public_path($filepath), $image);
         }
 
         if ($request->benef1_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef1_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef1_figure->extension();
             $validatedData['benef1_figure'] = $imageBackground;
             $request->benef1_figure->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->benef2_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef2_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef2_figure->extension();
             $validatedData['benef2_figure'] = $imageBackground;
             $request->benef2_figure->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->benef3_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef3_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef3_figure->extension();
             $validatedData['benef3_figure'] = $imageBackground;
             $request->benef3_figure->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->benef4_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef4_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef4_figure->extension();
             $validatedData['benef4_figure'] = $imageBackground;
             $request->benef4_figure->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->benef5_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef5_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef5_figure->extension();
             $validatedData['benef5_figure'] = $imageBackground;
             $request->benef5_figure->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->benef6_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef6_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef6_figure->extension();
             $validatedData['benef6_figure'] = $imageBackground;
             $request->benef6_figure->move(public_path($filepath), $imageBackground);
         }
 
+        // extra section images
+        if ($request->extra_section_1_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_1_image->extension();
+            $validatedData['extra_section_1_image'] = $imageBackground;
+            $request->extra_section_1_image->move(public_path($filepath), $imageBackground);
+        }
+
+        if ($request->extra_section_2_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_2_image->extension();
+            $validatedData['extra_section_2_image'] = $imageBackground;
+            $request->extra_section_2_image->move(public_path($filepath), $imageBackground);
+        }
+
+        if ($request->extra_section_3_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_3_image->extension();
+            $validatedData['extra_section_3_image'] = $imageBackground;
+            $request->extra_section_3_image->move(public_path($filepath), $imageBackground);
+        }
+
+        if ($request->extra_section_4_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_4_image->extension();
+            $validatedData['extra_section_4_image'] = $imageBackground;
+            $request->extra_section_4_image->move(public_path($filepath), $imageBackground);
+        }
+
+        if ($request->extra_section_5_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_5_image->extension();
+            $validatedData['extra_section_5_image'] = $imageBackground;
+            $request->extra_section_5_image->move(public_path($filepath), $imageBackground);
+        }
+
+        if ($request->extra_section_6_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_6_image->extension();
+            $validatedData['extra_section_6_image'] = $imageBackground;
+            $request->extra_section_6_image->move(public_path($filepath), $imageBackground);
+        }
+
         LandingPages::create($validatedData);
-   
+
         return redirect('/dashboard/landing-pages')->with('success', 'Landing Page was successfully saved');
     }
 
@@ -268,29 +360,24 @@ class LandingPagesController extends Controller
         $dir = opendir($source_dir);
 
         // Create a destination folder / directory if not exist 
-        if (!is_dir($destination_dir)){
+        if (!is_dir($destination_dir)) {
             mkdir($destination_dir);
         }
         // Loop through the files in source directory 
-        while($file = readdir($dir))
-        {
+        while ($file = readdir($dir)) {
             // Skip . and .. 
-            if(($file != '.') && ($file != '..'))
-            {
+            if (($file != '.') && ($file != '..')) {
                 // Check if it's folder / directory or file 
-                if(is_dir($source_dir.'/'.$file))
-                {
+                if (is_dir($source_dir . '/' . $file)) {
                     // Recursively calling this function for sub directory  
-                    $this->recursive_files_copy($source_dir.'/'.$file, $destination_dir.'/'.$file);
-                }
-                else
-                {
+                    $this->recursive_files_copy($source_dir . '/' . $file, $destination_dir . '/' . $file);
+                } else {
                     // Copying the files
-                    copy($source_dir.'/'.$file, $destination_dir.'/'.$file);
+                    copy($source_dir . '/' . $file, $destination_dir . '/' . $file);
                 }
             }
         }
-        
+
         closedir($dir);
     }
 
@@ -299,78 +386,114 @@ class LandingPagesController extends Controller
         $filepath = 'uploads/' . $validatedData['path'];
 
         if ($request->background) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->background->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->background->extension();
             $validatedData['background'] = $imageBackground;
             $request->background->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->background_mobile) {
-            $image = time().rand(1000,9999).'.'.$request->background_mobile->extension(); 
+            $image = time() . rand(1000, 9999) . '.' . $request->background_mobile->extension();
             $validatedData['background_mobile'] = $image;
             $request->background_mobile->move(public_path($filepath), $image);
         }
 
         if ($request->body_image_2) {
-            $image = time().rand(1000,9999).'.'.$request->body_image_2->extension(); 
+            $image = time() . rand(1000, 9999) . '.' . $request->body_image_2->extension();
             $validatedData['body_image_2'] = $image;
             $request->body_image_2->move(public_path($filepath), $image);
         }
 
         if ($request->region_graphic) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->region_graphic->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->region_graphic->extension();
             $validatedData['region_graphic'] = $imageBackground;
             $request->region_graphic->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->region_graphic_mobile) {
-            $image = time().rand(1000,9999).'.'.$request->region_graphic_mobile->extension(); 
+            $image = time() . rand(1000, 9999) . '.' . $request->region_graphic_mobile->extension();
             $validatedData['region_graphic_mobile'] = $image;
             $request->region_graphic_mobile->move(public_path($filepath), $image);
         }
 
         if ($request->body_image_4) {
-            $image = time().rand(1000,9999).'.'.$request->body_image_4->extension(); 
+            $image = time() . rand(1000, 9999) . '.' . $request->body_image_4->extension();
             $validatedData['body_image_4'] = $image;
             $request->body_image_4->move(public_path($filepath), $image);
         }
 
         if ($request->benef1_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef1_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef1_figure->extension();
             $validatedData['benef1_figure'] = $imageBackground;
             $request->benef1_figure->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->benef2_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef2_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef2_figure->extension();
             $validatedData['benef2_figure'] = $imageBackground;
             $request->benef2_figure->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->benef3_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef3_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef3_figure->extension();
             $validatedData['benef3_figure'] = $imageBackground;
             $request->benef3_figure->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->benef4_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef4_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef4_figure->extension();
             $validatedData['benef4_figure'] = $imageBackground;
             $request->benef4_figure->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->benef5_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef5_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef5_figure->extension();
             $validatedData['benef5_figure'] = $imageBackground;
             $request->benef5_figure->move(public_path($filepath), $imageBackground);
         }
 
         if ($request->benef6_figure) {
-            $imageBackground = time().rand(1000,9999).'.'.$request->benef6_figure->extension(); 
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->benef6_figure->extension();
             $validatedData['benef6_figure'] = $imageBackground;
             $request->benef6_figure->move(public_path($filepath), $imageBackground);
         }
 
-        
+        // extra section images
+        if ($request->extra_section_1_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_1_image->extension();
+            $validatedData['extra_section_1_image'] = $imageBackground;
+            $request->extra_section_1_image->move(public_path($filepath), $imageBackground);
+        }
+
+        if ($request->extra_section_2_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_2_image->extension();
+            $validatedData['extra_section_2_image'] = $imageBackground;
+            $request->extra_section_2_image->move(public_path($filepath), $imageBackground);
+        }
+
+        if ($request->extra_section_3_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_3_image->extension();
+            $validatedData['extra_section_3_image'] = $imageBackground;
+            $request->extra_section_3_image->move(public_path($filepath), $imageBackground);
+        }
+
+        if ($request->extra_section_4_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_4_image->extension();
+            $validatedData['extra_section_4_image'] = $imageBackground;
+            $request->extra_section_4_image->move(public_path($filepath), $imageBackground);
+        }
+
+        if ($request->extra_section_5_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_5_image->extension();
+            $validatedData['extra_section_5_image'] = $imageBackground;
+            $request->extra_section_5_image->move(public_path($filepath), $imageBackground);
+        }
+
+        if ($request->extra_section_6_image) {
+            $imageBackground = time() . rand(1000, 9999) . '.' . $request->extra_section_6_image->extension();
+            $validatedData['extra_section_6_image'] = $imageBackground;
+            $request->extra_section_6_image->move(public_path($filepath), $imageBackground);
+        }
+
 
         return $validatedData;
     }
@@ -393,6 +516,8 @@ class LandingPagesController extends Controller
             'sub_title' => 'required|max:255',
             'ga_lp' => 'max:255',
             'ga_tp' => 'max:255',
+            'primary_video_link' => 'max:255',
+            'secondary_description' => 'max:255',
             'background' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'background_mobile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'body_image_2' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -418,6 +543,30 @@ class LandingPagesController extends Controller
             'benef4_figure' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'benef5_figure' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'benef6_figure' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_1_title' => 'max:255',
+            'extra_section_2_title' => 'max:255',
+            'extra_section_3_title' => 'max:255',
+            'extra_section_4_title' => 'max:255',
+            'extra_section_5_title' => 'max:255',
+            'extra_section_6_title' => 'max:255',
+            'extra_section_1_video_link' => 'max:255',
+            'extra_section_2_video_link' => 'max:255',
+            'extra_section_3_video_link' => 'max:255',
+            'extra_section_4_video_link' => 'max:255',
+            'extra_section_5_video_link' => 'max:255',
+            'extra_section_6_video_link' => 'max:255',
+            'extra_section_1_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_2_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_3_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_4_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_5_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_6_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'extra_section_1_caption' => 'max:2000',
+            'extra_section_2_caption' => 'max:2000',
+            'extra_section_3_caption' => 'max:2000',
+            'extra_section_4_caption' => 'max:2000',
+            'extra_section_5_caption' => 'max:2000',
+            'extra_section_6_caption' => 'max:2000',
         ]);
     }
 }

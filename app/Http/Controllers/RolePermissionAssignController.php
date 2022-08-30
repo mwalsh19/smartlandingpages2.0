@@ -21,8 +21,8 @@ class RolePermissionAssignController extends Controller
      */
     public function index()
     {
-    	$roles = \Spatie\Permission\Models\Role::all();
-    	$permissions = \Spatie\Permission\Models\Permission::all();
+        $roles = \Spatie\Permission\Models\Role::all();
+        $permissions = \Spatie\Permission\Models\Permission::all();
         return view('roles-permissions.index', compact('roles', 'permissions'));
     }
 
@@ -33,7 +33,7 @@ class RolePermissionAssignController extends Controller
      */
     public function create()
     {
-    	$permissions = \Spatie\Permission\Models\Permission::all();
+        $permissions = \Spatie\Permission\Models\Permission::all();
         return view('roles-permissions.create', compact('permissions'));
     }
 
@@ -45,18 +45,17 @@ class RolePermissionAssignController extends Controller
      */
     public function store(Request $request)
     {
-    	if ($request->input('type') === 'role') {
-    		$permission_values = $request->input('permissions');
-	        $validatedData = $this->validator($request->all())->validate();
-	        $role = Role::create($validatedData);
-	        $role->syncPermissions($permission_values);
-	        return redirect('/roles-permissions')->with('success', 'Role Successfully Created.');
-    	} else {
-	        $validatedData = $this->validator($request->all())->validate();
-	        $permission = Permission::create($validatedData);
-	        return redirect('/roles-permissions')->with('success', 'Permission Successfully Created.');
-    	}
-    	
+        if ($request->input('type') === 'role') {
+            $permission_values = $request->input('permissions');
+            $validatedData = $this->validator($request->all())->validate();
+            $role = Role::create($validatedData);
+            $role->syncPermissions($permission_values);
+            return redirect('/dashboard/roles-permissions')->with('success', 'Role Successfully Created.');
+        } else {
+            $validatedData = $this->validator($request->all())->validate();
+            $permission = Permission::create($validatedData);
+            return redirect('/dashboard/roles-permissions')->with('success', 'Permission Successfully Created.');
+        }
     }
 
     /**
@@ -98,12 +97,12 @@ class RolePermissionAssignController extends Controller
         $permission_values = $request->input('permissions');
         $role = Role::findOrFail($id);
         if ($role->id === 1) {
-        	return back()->with('error', 'Admin role cannot be updated.');
+            return back()->with('error', 'Admin role cannot be updated.');
         } else {
-        	$role->update($validatedData);
-	        $role->syncPermissions($permission_values);
+            $role->update($validatedData);
+            $role->syncPermissions($permission_values);
 
-	        return redirect('/roles-permissions')->with('success', 'Role was successfully updated');
+            return redirect('/dashboard/roles-permissions')->with('success', 'Role was successfully updated');
         }
     }
 
@@ -113,24 +112,24 @@ class RolePermissionAssignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id) 
+    public function destroy(Request $request, $id)
     {
         if ($request->input('type') === 'role') {
-        	$role = Role::findOrFail($id);
-        	if ($role->id === 1) {
-            	return back()->with('error', 'You cannot delete the admin role.');
-	        } else {
-	            $role->delete();
-	        	return redirect('/roles-permissions')->with('success', 'Role was successfully deleted');
-	        }
+            $role = Role::findOrFail($id);
+            if ($role->id === 1) {
+                return back()->with('error', 'You cannot delete the admin role.');
+            } else {
+                $role->delete();
+                return redirect('/dashboard/roles-permissions')->with('success', 'Role was successfully deleted');
+            }
         } else {
-        	$permission = Permission::findOrFail($id);
-        	if ($permission->id === 1) {
-            	return back()->with('error', 'You cannot delete the main permission.');
-	        } else {
-	            $permission->delete();
-	        	return redirect('/roles-permissions')->with('success', 'Permission was successfully deleted');
-	        }
+            $permission = Permission::findOrFail($id);
+            if ($permission->id === 1) {
+                return back()->with('error', 'You cannot delete the main permission.');
+            } else {
+                $permission->delete();
+                return redirect('/dashboard/roles-permissions')->with('success', 'Permission was successfully deleted');
+            }
         }
     }
 

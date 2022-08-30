@@ -7,6 +7,8 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+@import 'datatables';
+
 @import 'sitepages';
 
 @import 'contact';
@@ -15,3 +17,4 @@
 @import 'login';
 @import 'dashboard';
 @import 'main';
+@import 'permissions';

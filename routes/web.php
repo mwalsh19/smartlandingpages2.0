@@ -33,7 +33,7 @@ Route::post('dashboard/landing-pages/clone/{id}', 'LandingPagesController@clone'
 Route::resource('dashboard/landing-pages', 'LandingPagesController')->middleware('verified');
 //Route::resource('dashboard/activity', 'ActivityController')->middleware('verified');
 //Route::resource('dashboard/profile', 'ProfileController')->middleware('verified');
-//Route::resource('dashboard/roles-permissions', 'RolePermissionAssignController')->middleware('verified');
+Route::resource('dashboard/roles-permissions', 'RolePermissionAssignController')->middleware('verified');
 
 Route::view('/terms-conditions', 'legal.terms');
 Route::view('/privacy-policy', 'legal.policy');

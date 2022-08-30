@@ -15,4 +15,9 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
+    $('#extra-sections').on("click", function (event) {
+        event.preventDefault();
+        $('.extra-sections').toggle();
+    });
+
 });

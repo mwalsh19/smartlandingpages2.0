@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Applicants;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ApplicantController extends Controller
 {
@@ -18,7 +19,16 @@ class ApplicantController extends Controller
      */
     public function index()
     {
-        $applicants = Applicants::all();
+        $userAuth = auth()->user();
+        if ($userAuth->getRoleNames()[0] === 'Admin' || $userAuth->getRoleNames()[0] === 'Analyst') {
+            $applicants = Applicants::orderBy('created_at', 'desc')->get();
+        } else if ($userAuth->getRoleNames()[0] === 'SystemTrans User') {
+            $applicants = DB::select('SELECT * FROM applicants WHERE customer = "systemTrans"');
+        } else if ($userAuth->getRoleNames()[0] === 'CRST User') {
+            $applicants = DB::select('SELECT * FROM applicants WHERE customer = "crst"');
+        } else {
+            return redirect('/dashboard')->with('error', 'Permission Denied.');
+        }
 
         return view('applicants.index', compact('applicants'));
     }
